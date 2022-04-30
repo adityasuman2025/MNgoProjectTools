@@ -1,10 +1,10 @@
-# mngo-text-editor
+# mngo-project-tools
 This library is available at [mngo-project-tools](https://www.npmjs.com/package/mngo-project-tools)
 
 
 ## Brief:
 
-A JavaScript Library (npm package) to where I keep all my javscript utils/components/apis/encryptionUtils which is usable in many of mngo projects
+A JavaScript Library (npm package) where I keep all my javscript utils/components/apis/encryptionUtils which is usable in many of mngo projects
 
 
 ## Usage
