@@ -13,7 +13,7 @@ export default function LoadingAnimation({
     loaderClassName?: string
 }) {
     return loading ?
-        <div className={className}>
+        <div className={className} style={{ display: "flex", justifyContent: "center", margin: "auto" }}>
             <div className={["loadingAnimation", (dark ? "darkLoader" : ""), loaderClassName].join(" ")} />
         </div>
         : null;
