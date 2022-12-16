@@ -97,4 +97,8 @@ async function logout(loggedUserTokenCookieName: any, cookieExpirationType: any)
     await cookies.remove(loggedUserTokenCookieName, { path: "/", expires: cookieExpirationType });
 }
 
-export default { getCookieValue, makeCookie, validateUsername, validateName, validateEmail, validateNumber, getLoggedUserToken, isEmpty, sendRequestToAPI, logout };
+function cx(...args: string[]) {
+    return args.join(" ");
+}
+
+export default { getCookieValue, makeCookie, validateUsername, validateName, validateEmail, validateNumber, getLoggedUserToken, isEmpty, sendRequestToAPI, logout, cx };

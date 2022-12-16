@@ -1,6 +1,6 @@
 {
-  "name": "mngo-project-tools",
-  "version": "0.3.1",
+  "name": "mngo-project-toolss",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "homepage": "./",
@@ -13,6 +13,7 @@
     "type": "git",
     "url": "git@github.com:adityasuman2025/MNgoProjectTools.git"
   },
+  "sideEffects": false,
   "dependencies": {
     "crypto-js": "^4.0.0",
     "dayjs": "^1.10.4",
