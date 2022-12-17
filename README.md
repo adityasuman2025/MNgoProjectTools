@@ -29,12 +29,7 @@ Runs the app in the development mode
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 
-### `npm run build-publish`
-
-this command make build of the project and publishes it, basically it is combination of `npm run babel-build` and `npm publish`
-
-
-### `npm run babel-build`
+### `npm run build`
 
 it is for final package build which create `dist` folder.
 
@@ -44,6 +39,11 @@ it is for final package build which create `dist` folder.
 to publish the project on npm
 
 `Note`: do `npm run babel-build` before `npm publish` because it publishes dist folder as defined as key main, module, files in package.json, and do not forget to login in npm using `npm login`
+
+
+### `npm run build-publish`
+
+this command make build of the project and publishes it, basically it is combination of `npm run babel-build` and `npm publish`
 
 
 ## License
