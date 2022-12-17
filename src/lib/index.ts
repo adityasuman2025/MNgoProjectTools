@@ -1,9 +1,12 @@
+import React from "react";
+import "./index.css";
+
 import utils from "./utils";
 import encryptionUtil from "./encryptionUtil";
 import dayjs from "./dayjs";
 import authApis from "./authApis";
-import LoadingAnimation from "./components/LoadingAnimation";
-import SnackBar from "./components/SnackBar";
+const LoadingAnimation = React.lazy(() => import("./components/LoadingAnimation"));
+const SnackBar = React.lazy(() => import("./components/SnackBar"));
+const ConfirmDialog = React.lazy(() => import("./components/ConfirmDialog"));
 
-// const components = { LoadingAnimation }
-export { utils, encryptionUtil, dayjs, authApis, LoadingAnimation, SnackBar };
+export { utils, encryptionUtil, dayjs, authApis, LoadingAnimation, SnackBar, ConfirmDialog };

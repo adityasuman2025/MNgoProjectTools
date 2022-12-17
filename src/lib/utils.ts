@@ -1,4 +1,3 @@
-import React from "react";
 import Cookies from "universal-cookie";
 import { NO_INTERNET_ERROR } from "./constants";
 

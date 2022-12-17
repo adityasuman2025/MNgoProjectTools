@@ -1,5 +1,6 @@
-import React from "react";
-import { enc, AES, MD5 } from "crypto-js";
+import AES from "crypto-js/aes";
+import Utf8 from 'crypto-js/enc-utf8'
+import MD5 from "crypto-js/md5";
 
 function encryptText(text: string, encryptionKey: string) {
     try {
@@ -14,7 +15,7 @@ function decryptText(enryptedValue: string, encryptionKey: string) {
     let value = null;
     try {
         const decrypted = AES.decrypt(enryptedValue, encryptionKey);
-        value = enc.Utf8.stringify(decrypted);
+        value = Utf8.stringify(decrypted);
     } catch {
         return null;
     }

@@ -1,5 +1,4 @@
-import React from "react";
-import { encryptionUtil } from "./index";
+import encryptionUtil from "./encryptionUtil";
 import { NO_INTERNET_ERROR } from "./constants";
 import dayjs from "./dayjs";
 
