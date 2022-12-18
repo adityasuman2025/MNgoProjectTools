@@ -40,7 +40,7 @@ export default function SnackBar({
     return (
         open ?
             <div className="snackBarContainer">
-                <div className={["snackBarContent", renderTypeStyle(type), boxclassName].join(" ")}>
+                <div className={["snackBarContent", renderTypeStyle(type), boxclassName].join(" ")} onClick={handleClose}>
                     <span className={["snackBarText", textclassName].join(" ")}>{msg}</span>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import AES from "crypto-js/aes";
 import Utf8 from 'crypto-js/enc-utf8'
 import MD5 from "crypto-js/md5";
+// import { Utf8, AES, MD5 } from "crypto-js";
 
 function encryptText(text: string, encryptionKey: string) {
     try {

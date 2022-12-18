@@ -28,7 +28,7 @@
 
 .snackBarContainer {
     z-index: 99;
-    position: absolute;
+    position: fixed;
     bottom: 30px;
     left: 0;
     right: 0;
@@ -95,7 +95,7 @@
 
 .dialogHeader {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     font-size: 120%;
     font-weight: 600;

@@ -39,21 +39,25 @@ async function verifyLogin(usersRef: any, username: string, password: string, en
     try {
         let toReturn = { statusCode: 500, data: {}, msg: "", token: "" };
 
+        const userToken = md5Hash(username + encryptionKey);
         await usersRef
+            .child(userToken)
             .once('value')
             .then(async (resp: any) => {
                 const response: { [key: string]: any } = resp.val() || {};
-                const loggedUserDetails = Object.values(response).filter((user: any) => {
-                    return ((user.username === username) && (decryptText(user.password, encryptionKey) === password))
-                });
-                if (loggedUserDetails.length === 1) {
-                    const { name, email, username, userToken } = loggedUserDetails[0] || {};
-                    toReturn.statusCode = 200;
-                    toReturn.msg = "success";
-                    toReturn.data = { name, email, username };
-                    toReturn.token = userToken;
+
+                if (Object.keys(response).length) {
+                    if (decryptText(response.password, encryptionKey) === password) {
+                        const { name, email, username, userToken } = response || {};
+                        toReturn.statusCode = 200;
+                        toReturn.msg = "success";
+                        toReturn.data = { name, email, username };
+                        toReturn.token = userToken;
+                    } else {
+                        toReturn.msg = "wrong password";
+                    }
                 } else {
-                    toReturn.msg = "invalid login credentials";
+                    toReturn.msg = "username not found";
                 }
             })
             .catch((error: any) => {
