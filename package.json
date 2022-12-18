@@ -17,7 +17,7 @@
             "import": "./dist/index.es.js",
             "require": "./dist/index.cjs.js"
         },
-        "./style.css": "./dist/style.css"
+        "./dist/style.css": "./dist/style.css"
     },
     "repository": {
         "type": "git",
