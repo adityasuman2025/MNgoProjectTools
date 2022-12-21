@@ -19,10 +19,12 @@ export default function SnackBar({
     handleClose?: any
 }) {
     useEffect(() => {
-        setTimeout(function () {
-            console.log("hiding snack bar in 5 s");
-            handleClose && handleClose();
-        }, duration);
+        if (open) {
+            setTimeout(function () {
+                console.log("hiding snack bar in 5 s");
+                handleClose && handleClose();
+            }, duration);
+        }
     }, [msg])
 
     function renderTypeStyle(type: string) {

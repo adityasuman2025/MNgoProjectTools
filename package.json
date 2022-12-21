@@ -1,6 +1,6 @@
 {
     "name": "mngo-project-tools",
-    "version": "0.9.1",
+    "version": "1.0.0",
     "sideEffects": false,
     "private": false,
     "type": "module",
