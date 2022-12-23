@@ -1,32 +1,25 @@
 import encryptionUtil from "./encryptionUtil";
 import { NO_INTERNET_ERROR } from "./constants";
+import utils from "./utils";
 import dayjs from "./dayjs";
 
 const { decryptText, encryptText, md5Hash } = encryptionUtil;
 
-async function getUserDetails(usersRef: any, userToken: string) {
+async function getUserDetails(baseUrl: string, usersRef: any, userToken: string) {
     console.log("getUserDetails")
     try {
-        let toReturn = { statusCode: 500, data: {}, msg: "" };
+        let toReturn = { statusCode: 500, data: {}, msg: "something went wrong" };
 
-        await usersRef
-            .child(userToken)
-            .once('value')
-            .then(async (resp: any) => {
-                const response = resp.val();
-                const { name, email, username } = response || {};
-
-                if (username) {
-                    toReturn.statusCode = 200;
-                    toReturn.msg = "success";
-                    toReturn.data = { name, email, username };
-                } else {
-                    toReturn.msg = "user not found";
-                }
-            })
-            .catch((error: any) => {
-                toReturn.msg = error.message;
-            });
+        if (baseUrl) {
+            const response = await utils.sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`);
+            const { name, email, username } = response || {};
+            if (username) {
+                toReturn = { ...toReturn, statusCode: 200, msg: "success" };
+                toReturn.data = { name, email, username };
+            } else {
+                toReturn.msg = "user not found";
+            }
+        }
 
         return toReturn;
     } catch {
@@ -34,85 +27,64 @@ async function getUserDetails(usersRef: any, userToken: string) {
     }
 }
 
-async function verifyLogin(usersRef: any, username: string, password: string, encryptionKey: string) {
+async function verifyLogin(baseUrl: string, usersRef: any, username: string, password: string, encryptionKey: string) {
     console.log("verifyLogin")
     try {
-        let toReturn = { statusCode: 500, data: {}, msg: "", token: "" };
+        let toReturn: any = { statusCode: 500, data: {}, msg: "something went wrong" };
 
-        const userToken = md5Hash(username + encryptionKey);
-        await usersRef
-            .child(userToken)
-            .once('value')
-            .then(async (resp: any) => {
-                const response: { [key: string]: any } = resp.val() || {};
+        if (baseUrl) {
+            const userToken = md5Hash(username + encryptionKey);
+            const response = await utils.sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`) || {};
 
-                if (Object.keys(response).length) {
-                    if (decryptText(response.password, encryptionKey) === password) {
-                        const { name, email, username, userToken } = response || {};
-                        toReturn.statusCode = 200;
-                        toReturn.msg = "success";
-                        toReturn.data = { name, email, username };
-                        toReturn.token = userToken;
-                    } else {
-                        toReturn.msg = "wrong password";
-                    }
+            if (Object.keys(response).length) {
+                if (decryptText(response.password, encryptionKey) === password) {
+                    const { name, email, username } = response || {};
+                    toReturn = { ...toReturn, statusCode: 200, msg: "success" };
+                    toReturn.data = { name, email, username };
+                    toReturn.token = userToken;
                 } else {
-                    toReturn.msg = "username not found";
+                    toReturn.msg = "wrong password";
                 }
-            })
-            .catch((error: any) => {
-                toReturn.msg = error.message;
-            });
+            } else {
+                toReturn.msg = "username not found";
+            }
+        }
+
         return toReturn;
     } catch {
         return NO_INTERNET_ERROR;
     }
 }
 
-async function registerNewUser(usersRef: any, username: string, name: string, email: string, password: string, passcode: string, encryptionKey: string) {
+async function registerNewUser(baseUrl: string, usersRef: any, username: string, name: string, email: string, password: string, passcode: string, encryptionKey: string) {
     console.log("registerNewUser")
     try {
-        let toReturn = { statusCode: 500, data: false, msg: "" };
+        let toReturn: any = { statusCode: 500, data: {}, msg: "something went wrong" };
 
-        const userToken = md5Hash(username + encryptionKey);
-        await usersRef
-            .child(userToken)
-            .once('value')
-            .then(async (resp: any) => {
-                const response = resp.val();
-                if (response) {
-                    toReturn.msg = "username is already taken";
+        if (baseUrl) {
+            const userToken = md5Hash(username + encryptionKey);
+            const checkUser = await getUserDetails(baseUrl, usersRef, userToken);
+            if (checkUser.statusCode === 200) {
+                toReturn = { ...toReturn, statusCode: 400, msg: "username is already taken" };
+            } else {
+                const response = await utils.sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`, "PUT", {
+                    userToken,
+                    username,
+                    name,
+                    email,
+                    password: encryptText(password, encryptionKey),
+                    passcode: encryptText(passcode, encryptionKey),
+                    lastActive: dayjs().format(),
+                    addedOn: dayjs().format(),
+                    userChatRooms: {}
+                }) || {};
+                if (response.username) {
+                    toReturn = { ...toReturn, statusCode: 200, msg: "success" };
                 } else {
-                    await usersRef
-                        .child(userToken)
-                        .set({
-                            userToken,
-                            username,
-                            name,
-                            email,
-                            password: encryptText(password, encryptionKey),
-                            passcode: encryptText(passcode, encryptionKey),
-                            lastActive: dayjs().format(),
-                            addedOn: dayjs().format(),
-                            userChatRooms: {}
-                        },
-                            (error: any) => {
-                                try {
-                                    if (error) {
-                                        toReturn.msg = error.message;
-                                    } else {
-                                        toReturn.statusCode = 200;
-                                        toReturn.msg = "success";
-                                    }
-                                } catch (error: any) {
-                                    toReturn.msg = error.message;
-                                }
-                            });
+                    toReturn.msg = "failed to register";
                 }
-            })
-            .catch((error: any) => {
-                toReturn.msg = error.message;
-            });
+            }
+        }
 
         return toReturn;
     } catch {
@@ -120,29 +92,20 @@ async function registerNewUser(usersRef: any, username: string, name: string, em
     }
 }
 
-async function verifyPassCode(usersRef: any, userToken: string, passcode: string, encryptionKey: string) {
+async function verifyPassCode(baseUrl: string, usersRef: any, userToken: string, passcode: string, encryptionKey: string) {
     console.log("verifyPassCode")
     try {
-        let toReturn = { statusCode: 500, data: false, msg: "" };
+        let toReturn: any = { statusCode: 500, data: {}, msg: "something went wrong" };
 
-        await usersRef
-            .child(userToken)
-            .once('value')
-            .then(async (resp: any) => {
-                const response = resp.val();
-                const { passcode: dbPassCode } = response || {};
+        if (baseUrl) {
+            const response = await utils.sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`) || {};
+            if (decryptText(response.passcode, encryptionKey) === passcode) {
+                toReturn = { ...toReturn, statusCode: 200, msg: "success" };
+            } else {
+                toReturn = { ...toReturn, statusCode: 400, msg: "wrong pass code" };
+            }
+        }
 
-                if (decryptText(dbPassCode, encryptionKey) === passcode) {
-                    toReturn.statusCode = 200;
-                    toReturn.msg = "success";
-                } else {
-                    toReturn.statusCode = 400;
-                    toReturn.msg = "wrong pass code";
-                }
-            })
-            .catch((error: any) => {
-                toReturn.msg = error.message;
-            });
         return toReturn;
     } catch {
         return NO_INTERNET_ERROR;

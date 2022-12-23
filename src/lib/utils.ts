@@ -1,5 +1,4 @@
 import Cookies from "universal-cookie";
-import { NO_INTERNET_ERROR } from "./constants";
 
 const cookies = new Cookies();
 
@@ -76,20 +75,16 @@ function isEmpty(obj: any) {
     return true;
 }
 
-async function sendRequestToAPI(baseUrl: string, endpoint: string, method: string, body?: { [key: string]: any }) {
-    try {
-        const requestAddress = baseUrl + endpoint;
-        const response = await fetch(requestAddress, {
-            method,
-            ...(method.toLowerCase() === "get" ? {} : {
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            })
-        });
-        return await response.json();
-    } catch {
-        return NO_INTERNET_ERROR;
-    }
+async function sendRequestToAPI(baseUrl: string, endpoint: string, method: string = "get", body?: { [key: string]: any }) {
+    const requestAddress = baseUrl + endpoint;
+    const response = await fetch(requestAddress, {
+        method,
+        ...(method.toLowerCase() === "get" ? {} : {
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body || {})
+        })
+    });
+    return await response.json();
 }
 
 async function logout(loggedUserTokenCookieName: any, cookieExpirationType: any) {
