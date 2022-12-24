@@ -18,7 +18,7 @@ export default function ConfirmDialog({
             {
                 !isDialogOpen ? null :
                     <>
-                        <div className="dialogBackGrnd" onClick={onClose}></div>
+                        <div className="modalBackGrnd" onClick={onClose}></div>
 
                         <div className={["dialog", className].join(" ")}>
                             <div className="dialogHeader">

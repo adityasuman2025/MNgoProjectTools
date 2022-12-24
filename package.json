@@ -1,6 +1,6 @@
 {
     "name": "mngo-project-tools",
-    "version": "1.0.01",
+    "version": "1.0.02",
     "sideEffects": false,
     "private": false,
     "type": "module",
@@ -30,7 +30,8 @@
     },
     "dependencies": {
         "dayjs": "^1.10.4",
-        "universal-cookie": "^4.0.4"
+        "universal-cookie": "^4.0.4",
+        "mobile-device-detect": "^0.4.3"
     },
     "devDependencies": {
         "@types/node": "17.0.23",

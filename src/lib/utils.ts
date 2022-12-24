@@ -1,4 +1,6 @@
+import { isMobile, isAndroid, isFirefox, isIOS, isOpera, browserVersion } from "mobile-device-detect";
 import Cookies from "universal-cookie";
+import { PLATFORMS } from "./constants";
 
 const cookies = new Cookies();
 
@@ -95,4 +97,21 @@ function cx(...args: string[]) {
     return args.join(" ");
 }
 
-export default { getCookieValue, makeCookie, validateUsername, validateName, validateEmail, validateNumber, getLoggedUserToken, isEmpty, sendRequestToAPI, logout, cx };
+function getDevice() {
+    let platform = PLATFORMS.OTHER;
+    if (window.hasOwnProperty("BeforeInstallPromptEvent")) {
+        platform = PLATFORMS.NATIVE;
+    } else if (isMobile && isAndroid && isFirefox && +browserVersion >= 79) {
+        platform = PLATFORMS.FIREFOX_NEW;
+    } else if (isMobile && isAndroid && isFirefox) {
+        platform = PLATFORMS.FIREFOX;
+    } else if (isOpera && isAndroid && isMobile) {
+        platform = PLATFORMS.OPERA;
+    } else if (isIOS && isMobile) {
+        platform = PLATFORMS.IDEVICE;
+    }
+
+    return platform;
+}
+
+export default { getCookieValue, makeCookie, validateUsername, validateName, validateEmail, validateNumber, getLoggedUserToken, isEmpty, sendRequestToAPI, logout, cx, getDevice };
