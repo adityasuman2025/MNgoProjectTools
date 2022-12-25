@@ -1,17 +1,15 @@
-import encryptionUtil from "./encryptionUtil";
-import { NO_INTERNET_ERROR } from "./constants";
-import utils from "./utils";
-import dayjs from "./dayjs";
+import { decryptText, encryptText, md5Hash } from "./encryptionUtil";
+import { sendRequestToAPI } from "./utils";
 
-const { decryptText, encryptText, md5Hash } = encryptionUtil;
+const NO_INTERNET_ERROR = { statusCode: 500, msg: "API Connection Failed" };
 
-async function getUserDetails(baseUrl: string, usersRef: any, userToken: string) {
+export async function getUserDetails(baseUrl: string, usersRef: any, userToken: string) {
     console.log("getUserDetails")
     try {
         let toReturn = { statusCode: 500, data: {}, msg: "something went wrong" };
 
         if (baseUrl) {
-            const response = await utils.sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`);
+            const response = await sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`);
             const { name, email, username } = response || {};
             if (username) {
                 toReturn = { ...toReturn, statusCode: 200, msg: "success" };
@@ -27,14 +25,14 @@ async function getUserDetails(baseUrl: string, usersRef: any, userToken: string)
     }
 }
 
-async function verifyLogin(baseUrl: string, usersRef: any, username: string, password: string, encryptionKey: string) {
+export async function verifyLogin(baseUrl: string, usersRef: any, username: string, password: string, encryptionKey: string) {
     console.log("verifyLogin")
     try {
         let toReturn: any = { statusCode: 500, data: {}, msg: "something went wrong" };
 
         if (baseUrl) {
             const userToken = md5Hash(username + encryptionKey);
-            const response = await utils.sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`) || {};
+            const response = await sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`) || {};
 
             if (Object.keys(response).length) {
                 if (decryptText(response.password, encryptionKey) === password) {
@@ -56,7 +54,7 @@ async function verifyLogin(baseUrl: string, usersRef: any, username: string, pas
     }
 }
 
-async function registerNewUser(baseUrl: string, usersRef: any, username: string, name: string, email: string, password: string, passcode: string, encryptionKey: string) {
+export async function registerNewUser(baseUrl: string, usersRef: any, username: string, name: string, email: string, password: string, passcode: string, encryptionKey: string) {
     console.log("registerNewUser")
     try {
         let toReturn: any = { statusCode: 500, data: {}, msg: "something went wrong" };
@@ -67,15 +65,15 @@ async function registerNewUser(baseUrl: string, usersRef: any, username: string,
             if (checkUser.statusCode === 200) {
                 toReturn = { ...toReturn, statusCode: 400, msg: "username is already taken" };
             } else {
-                const response = await utils.sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`, "PUT", {
+                const response = await sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`, "PUT", {
                     userToken,
                     username,
                     name,
                     email,
                     password: encryptText(password, encryptionKey),
                     passcode: encryptText(passcode, encryptionKey),
-                    lastActive: dayjs().format(),
-                    addedOn: dayjs().format(),
+                    lastActive: new Date().getTime(),
+                    addedOn: new Date().getTime(),
                     userChatRooms: {}
                 }) || {};
                 if (response.username) {
@@ -92,13 +90,13 @@ async function registerNewUser(baseUrl: string, usersRef: any, username: string,
     }
 }
 
-async function verifyPassCode(baseUrl: string, usersRef: any, userToken: string, passcode: string, encryptionKey: string) {
+export async function verifyPassCode(baseUrl: string, usersRef: any, userToken: string, passcode: string, encryptionKey: string) {
     console.log("verifyPassCode")
     try {
         let toReturn: any = { statusCode: 500, data: {}, msg: "something went wrong" };
 
         if (baseUrl) {
-            const response = await utils.sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`) || {};
+            const response = await sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`) || {};
             if (decryptText(response.passcode, encryptionKey) === passcode) {
                 toReturn = { ...toReturn, statusCode: 200, msg: "success" };
             } else {
@@ -111,5 +109,3 @@ async function verifyPassCode(baseUrl: string, usersRef: any, userToken: string,
         return NO_INTERNET_ERROR;
     }
 }
-
-export default { getUserDetails, verifyLogin, registerNewUser, verifyPassCode }

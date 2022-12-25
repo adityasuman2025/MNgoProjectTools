@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect, createContext, useContext, ReactElement } from "react";
-import utils from "../utils";
-import { PLATFORMS } from "../constants";
+import { isMobile, isAndroid, isFirefox, isIOS, isOpera, browserVersion } from "mobile-device-detect";
 import Modal from "./Modal";
-//ref: https://github.com/zoltangy/react-pwa-install
+import "./PWAInstallProvider.css";
+
 function InstallDialog({
     yesClassName,
     open,
@@ -12,20 +12,16 @@ function InstallDialog({
     onSubmit,
 }: { [key: string]: any }) {
     function renderOkBtn() {
-        return (
-            <div className="pwaInstallBtns">
-                <button className={yesClassName} onClick={onClose}>Ok</button>
-            </div>
-        )
+        return <div className="pwaInstallBtns"><button className={yesClassName} onClick={onClose}>Ok</button></div>
     }
 
     return (
-        <Modal isOpen={open} title={title || "Install Web App"} onClose={onClose} >
+        <Modal open={open} title={title || "Install Web App"} onClose={onClose} >
             <div>
                 {platform === PLATFORMS.NATIVE && (
                     <div className="pwaInstallBtns">
                         <button className={yesClassName} onClick={onSubmit}>Install</button>
-                        <button className="dialogNo" onClick={onClose}>Cancel</button>
+                        <button className="cancelBtn" onClick={onClose}>Cancel</button>
                     </div>
                 )}
                 {platform === PLATFORMS.IDEVICE && (
@@ -149,13 +145,35 @@ l-1205 3 -28 23 c-15 12 -42 32 -60 45 -21 14 -47 51 -74 103 l-41 82 1 1202
     )
 }
 
-const platform = utils.getDevice();
+export const PLATFORMS = {
+    NATIVE: "native", // currently: Chrome, Edge mobile, Samsung internet
+    FIREFOX: "firefox",
+    FIREFOX_NEW: "firefox_new", // above version 79
+    OPERA: "opera",
+    IDEVICE: "idevice",
+    OTHER: "other", // don't know, so will do nothing
+}
+export function getDevice() {
+    let platform = PLATFORMS.OTHER;
+    if (window.hasOwnProperty("BeforeInstallPromptEvent")) {
+        platform = PLATFORMS.NATIVE;
+    } else if (isMobile && isAndroid && isFirefox && +browserVersion >= 79) {
+        platform = PLATFORMS.FIREFOX_NEW;
+    } else if (isMobile && isAndroid && isFirefox) {
+        platform = PLATFORMS.FIREFOX;
+    } else if (isOpera && isAndroid && isMobile) {
+        platform = PLATFORMS.OPERA;
+    } else if (isIOS && isMobile) {
+        platform = PLATFORMS.IDEVICE;
+    }
+    return platform;
+}
 
+const platform = getDevice();
 const PWAInstallContext = createContext(Promise.reject);
 export const useReactPWAInstall = () => useContext(PWAInstallContext);
 
-export const PWAInstallProvider = ({ children, enableLogging
-}: { children: ReactElement, enableLogging: Boolean }) => {
+export default function PWAInstallProvider({ children, enableLogging }: { children: ReactElement, enableLogging: Boolean }) {
     const awaitingPromiseRef = useRef<any>();
     const deferredprompt = useRef<any>(null);
     const [dialogState, setDialogState] = useState<any>(null);
@@ -233,7 +251,7 @@ export const PWAInstallProvider = ({ children, enableLogging
         if (deferredprompt.current != null) {
             return deferredprompt.current
                 .prompt()
-                .then((event: any) => deferredprompt.current.userChoice)
+                .then(() => deferredprompt.current.userChoice)
                 .then((choiceResult: any) => {
                     if (choiceResult.outcome === "accepted") {
                         logger("PWA native installation succesful");
@@ -273,4 +291,4 @@ export const PWAInstallProvider = ({ children, enableLogging
         </>
     )
 }
-export default PWAInstallProvider;
+//ref: https://github.com/zoltangy/react-pwa-install

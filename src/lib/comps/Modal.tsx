@@ -1,10 +1,11 @@
 import React from "react";
+import "./Modal.css";
 
 export default function Modal({
     className = "",
     titleClassName = "",
     contentClassName = "",
-    isOpen = false,
+    open = false,
     title,
     children,
     onClose,
@@ -12,17 +13,17 @@ export default function Modal({
     return (
         <>
             {
-                !isOpen ? null :
+                !open ? null :
                     <>
                         <div className="modalBackGrnd" onClick={onClose}></div>
 
                         <div className={["modal", className].join(" ")}>
-                            <div className="dialogHeader">
+                            <div className="modalHeader">
                                 <div className={titleClassName}>{title}</div>
-                                <div className="dialogCloseBtn" onClick={onClose}></div>
+                                <div className="modalCloseBtn" onClick={onClose}></div>
                             </div>
 
-                            <div className={["dialogContent", contentClassName].join(" ")}>{children}</div>
+                            <div className={["modalContent", contentClassName].join(" ")}>{children}</div>
                         </div>
                     </>
             }

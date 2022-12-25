@@ -8,8 +8,6 @@ A JavaScript Library (npm package) where I keep all my javscript utils/component
 
 
 ## Usage
-   
-   import { authApis, utils, encryptionUtils, dayjs, SnackBar, LoadingAnimation } from "mngo-project-tools";
 
 
 ## Installation

@@ -1,10 +1,7 @@
-import { isMobile, isAndroid, isFirefox, isIOS, isOpera, browserVersion } from "mobile-device-detect";
 import Cookies from "universal-cookie";
-import { PLATFORMS } from "./constants";
-
 const cookies = new Cookies();
 
-function getCookieValue(cookieName: string) {
+export function getCookieValue(cookieName: string) {
     let value = null;
     try {
         const cookieValue = cookies.get(cookieName);
@@ -18,7 +15,7 @@ function getCookieValue(cookieName: string) {
     return value;
 }
 
-function makeCookie(key: string, value: string, cookieExpirationType: any) {
+export function makeCookie(key: string, value: string, cookieExpirationType: any) {
     try {
         cookies.set(key, value, { path: "/", expires: cookieExpirationType, });
 
@@ -28,31 +25,31 @@ function makeCookie(key: string, value: string, cookieExpirationType: any) {
     }
 }
 
-function validateUsername(name: string) {
+export function validateUsername(name: string) {
     var re = /^[a-zA-Z0-9_]*$/;
     return re.test(name);
 }
 
-function validateName(name: string) {
+export function validateName(name: string) {
     var re = /^[a-zA-Z0-9 ]*$/;
     return re.test(name);
 }
 
-function validateEmail(email: string) {
+export function validateEmail(email: string) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
 
-function validateNumber(number: any) {
+export function validateNumber(number: any) {
     var re = /^[0-9]*$/;
     return re.test(number);
 }
 
-function getLoggedUserToken(loggedUserTokenCookieName: any) {
+export function getLoggedUserToken(loggedUserTokenCookieName: any) {
     return getCookieValue(loggedUserTokenCookieName);
 }
 
-function isEmpty(obj: any) {
+export function isEmpty(obj: any) {
     // null and undefined are "empty"
     if (obj == null) return true;
 
@@ -77,7 +74,7 @@ function isEmpty(obj: any) {
     return true;
 }
 
-async function sendRequestToAPI(baseUrl: string, endpoint: string, method: string = "get", body?: { [key: string]: any }) {
+export async function sendRequestToAPI(baseUrl: string, endpoint: string, method: string = "get", body?: { [key: string]: any }) {
     const requestAddress = baseUrl + endpoint;
     const response = await fetch(requestAddress, {
         method,
@@ -89,29 +86,10 @@ async function sendRequestToAPI(baseUrl: string, endpoint: string, method: strin
     return await response.json();
 }
 
-async function logout(loggedUserTokenCookieName: any, cookieExpirationType: any) {
+export async function logout(loggedUserTokenCookieName: any, cookieExpirationType: any) {
     await cookies.remove(loggedUserTokenCookieName, { path: "/", expires: cookieExpirationType });
 }
 
-function cx(...args: string[]) {
+export function cx(...args: string[]) {
     return args.join(" ");
 }
-
-function getDevice() {
-    let platform = PLATFORMS.OTHER;
-    if (window.hasOwnProperty("BeforeInstallPromptEvent")) {
-        platform = PLATFORMS.NATIVE;
-    } else if (isMobile && isAndroid && isFirefox && +browserVersion >= 79) {
-        platform = PLATFORMS.FIREFOX_NEW;
-    } else if (isMobile && isAndroid && isFirefox) {
-        platform = PLATFORMS.FIREFOX;
-    } else if (isOpera && isAndroid && isMobile) {
-        platform = PLATFORMS.OPERA;
-    } else if (isIOS && isMobile) {
-        platform = PLATFORMS.IDEVICE;
-    }
-
-    return platform;
-}
-
-export default { getCookieValue, makeCookie, validateUsername, validateName, validateEmail, validateNumber, getLoggedUserToken, isEmpty, sendRequestToAPI, logout, cx, getDevice };

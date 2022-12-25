@@ -1,4 +1,5 @@
 import React from "react";
+import "./ConfirmDialog.css";
 
 export default function ConfirmDialog({
     className = "",
@@ -6,9 +7,9 @@ export default function ConfirmDialog({
     contentClassName = "",
     yesBtnClassName = "",
     noBtnClassName = "",
-    isDialogOpen = false,
-    dialogText = "",
-    dialogDetails = "",
+    open = false,
+    title = "",
+    content = "",
     hideBtns = false,
     onClose,
     onConfirm,
@@ -16,18 +17,18 @@ export default function ConfirmDialog({
     return (
         <>
             {
-                !isDialogOpen ? null :
+                !open ? null :
                     <>
                         <div className="modalBackGrnd" onClick={onClose}></div>
 
                         <div className={["dialog", className].join(" ")}>
                             <div className="dialogHeader">
-                                <div className={titleClassName}>{dialogText}</div>
+                                <div className={titleClassName}>{title}</div>
                                 <div className="dialogCloseBtn" onClick={onClose}></div>
                             </div>
 
                             <div className={["dialogContent", contentClassName].join(" ")}>
-                                <div>{dialogDetails}</div>
+                                <div>{content}</div>
 
                                 {
                                     hideBtns ? null :
