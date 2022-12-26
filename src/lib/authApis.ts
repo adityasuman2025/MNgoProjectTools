@@ -10,10 +10,10 @@ export async function getUserDetails(baseUrl: string, usersRef: any, userToken: 
 
         if (baseUrl) {
             const response = await sendRequestToAPI(baseUrl, `/${usersRef}/${userToken}.json`);
-            const { name, email, username } = response || {};
+            const { name, email, username, profileImg } = response || {};
             if (username) {
                 toReturn = { ...toReturn, statusCode: 200, msg: "success" };
-                toReturn.data = { name, email, username };
+                toReturn.data = { name, email, username, profileImg };
             } else {
                 toReturn.msg = "user not found";
             }
@@ -36,9 +36,9 @@ export async function verifyLogin(baseUrl: string, usersRef: any, username: stri
 
             if (Object.keys(response).length) {
                 if (decryptText(response.password, encryptionKey) === password) {
-                    const { name, email, username } = response || {};
+                    const { name, email, username, profileImg } = response || {};
                     toReturn = { ...toReturn, statusCode: 200, msg: "success" };
-                    toReturn.data = { name, email, username };
+                    toReturn.data = { name, email, username, profileImg };
                     toReturn.token = userToken;
                 } else {
                     toReturn.msg = "wrong password";
