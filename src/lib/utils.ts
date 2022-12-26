@@ -87,6 +87,7 @@ export async function sendRequestToAPI(baseUrl: string, endpoint: string, method
 }
 
 export async function logout(loggedUserTokenCookieName: any, cookieExpirationType: any) {
+    localStorage.clear();
     await cookies.remove(loggedUserTokenCookieName, { path: "/", expires: cookieExpirationType });
 }
 
