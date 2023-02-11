@@ -1,24 +1,26 @@
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
-
 export function getCookieValue(cookieName: string) {
-    let value = null;
     try {
-        const cookieValue = cookies.get(cookieName);
-        if (cookieValue) {
-            value = cookieValue;
-        }
-    } catch {
-        value = null;
-    }
+        let name = cookieName + "=";
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1);
 
-    return value;
+            if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+        }
+        return null;
+    } catch { }
+
+    return null;
 }
 
-export function makeCookie(key: string, value: string, cookieExpirationType: any) {
+export function makeCookie(cname: string, cvalue: string, inpExpires: any = "", path: string = "/") {
     try {
-        cookies.set(key, value, { path: "/", expires: cookieExpirationType, });
+        const d = new Date();
+        d.setTime(d.getTime() + (1 * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + (<any>(inpExpires || d)).toUTCString();
 
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=" + (path || "/");
         return true;
     } catch {
         return false;
@@ -86,11 +88,22 @@ export async function sendRequestToAPI(baseUrl: string, endpoint: string, method
     return await response.json();
 }
 
-export async function logout(loggedUserTokenCookieName: any, cookieExpirationType: any) {
+export async function logout(loggedUserTokenCookieName: any = "", cookieExpirationType: any = "") {
     localStorage.clear();
-    await cookies.remove(loggedUserTokenCookieName, { path: "/", expires: cookieExpirationType });
+    deleteAllCookies();
 }
 
 export function cx(...args: string[]) {
     return args.join(" ");
+}
+
+function deleteAllCookies() {
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i];
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
 }

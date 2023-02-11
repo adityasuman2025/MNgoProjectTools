@@ -2,10 +2,6 @@ import React from 'react';
 import LoadingAnimation from "./LoadingAnimation";
 import "./ActionBtn.css";
 
-function cx(...args: string[]) {
-    return args.join(" ");
-}
-
 export default function ActionBtn({
     dark,
     className,
@@ -16,12 +12,12 @@ export default function ActionBtn({
 }: { [key: string]: any }) {
     return (
         <button
-            className={cx("actionBtnContainer", ...[dark ? "darkActionBtnContainer" : ""], className)}
+            className={`actionBtnContainer ${dark ? "darkActionBtnContainer" : ""} ${className}`}
             onClick={!showLoader ? onClick : null}
         >
             {
                 showLoader ? <LoadingAnimation dark={!dark} loading={showLoader} /> :
-                    <div className={cx("actionBtnText", ...[dark ? "darkActionBtnText" : ""], textclassName)}>{text}</div>
+                    <div className={`actionBtnText ${dark ? "darkActionBtnText" : ""} ${textclassName}`}>{text}</div>
             }
         </button>
     )

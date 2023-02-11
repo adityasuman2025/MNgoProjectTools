@@ -4,10 +4,6 @@ import SignInUpButton from "./SignInUpButton";
 import getLogoImg from "../getLogoImg";
 import "./LoginSignUpForm.css";
 
-function cx(...args: string[]) {
-    return args.join(" ");
-}
-
 export default function LoginForm({
     className,
     inputClassName,
@@ -36,14 +32,14 @@ export default function LoginForm({
     }
 
     return (
-        <div className={cx("formContainer", className)}>
+        <div className={`formContainer ${className}`}>
             <img className="logoImg" alt="logoImg" src={logoImg} width={200} height={200} />
             <div className="logoTitle">{projectTitle}</div>
 
             <form onSubmit={handleLoginBtnClick} className={"formContainer"}>
                 <input
                     type="text"
-                    className={cx("formInputField", inputClassName)}
+                    className={`formInputField ${inputClassName}`}
                     placeholder="Username"
                     autoFocus
                     value={username}
@@ -51,7 +47,7 @@ export default function LoginForm({
                 />
                 <input
                     type="password"
-                    className={cx("formInputField", inputClassName)}
+                    className={`formInputField ${inputClassName}`}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

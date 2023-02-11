@@ -13,7 +13,6 @@
     "declaration": true,
     "moduleResolution": "node",
     "noUnusedLocals": false,
-    "noUnusedParameters": true,
     "esModuleInterop": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,

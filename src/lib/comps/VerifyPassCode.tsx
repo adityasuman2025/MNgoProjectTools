@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import ActionBtn from "./ActionBtn";
 import "./VerifyPassCode.css";
 
-function cx(...args: string[]) {
-    return args.join(" ");
-}
-
 export default function VerifyPassCode({
     className,
     titleClassName,
@@ -24,11 +20,11 @@ export default function VerifyPassCode({
     }
 
     return (
-        <form className={cx("verifyPasscodeContainer", className)} onSubmit={handleVerifyBtnClick}>
-            <div className={cx("darkTitle", titleClassName)}>Verify Passcode</div>
+        <form className={`verifyPasscodeContainer ${className}`} onSubmit={handleVerifyBtnClick}>
+            <div className={`darkTitle ${titleClassName}`}>Verify Passcode</div>
             <input
                 type="password"
-                className={cx("formInputField", inputClassName)}
+                className={`formInputField ${inputClassName}`}
                 placeholder="Enter Passcode"
                 autoFocus
                 maxLength={4}

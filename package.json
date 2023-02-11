@@ -1,6 +1,6 @@
 {
   "name": "mngo-project-tools",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "private": false,
   "sideEffects": false,
   "main": "dist/index.js",
@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "dayjs": "^1.10.4",
-    "universal-cookie": "^4.0.4",
     "mobile-device-detect": "^0.4.3",
     "crypto-js": "^4.0.0"
   },

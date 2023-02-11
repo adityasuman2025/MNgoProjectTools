@@ -4,118 +4,60 @@ import ActionBtn from "./ActionBtn";
 import getLogoImg from "../getLogoImg";
 import "./LoginSignUpForm.css";
 
-function cx(...args: string[]) {
-    return args.join(" ");
-}
+const FIELDS = [
+    { type: "text", placeholder: "Username", key: "username", autoFocus: true },
+    { type: "email", placeholder: "Email", key: "email" },
+    { type: "password", placeholder: "Password", key: "password" },
+    { type: "password", placeholder: "Confirm Password", key: "confPassword" },
+    { type: "password", placeholder: "Passcode", key: "passcode", maxLength: 4 },
+    { type: "password", placeholder: "Confirm Passcode", key: "confPasscode", maxLength: 4 },
+];
 
 export default function RegisterForm({
-    className,
-    inputClassName,
-    btnClassName,
+    className = "",
+    inputClassName = "",
+    btnClassName = "",
     projectTitle = "MNgo",
     logoImg = getLogoImg(),
     isRegisteringUser,
     showError,
     onRegisterClick,
 }: { [key: string]: any }) {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confPassword, setConfPassword] = useState("");
-    const [passcode, setPasscode] = useState("");
-    const [confPasscode, setConfPasscode] = useState("");
+    const [state, setState] = useState<{ [key: string]: any }>(FIELDS.reduce((acc, i) => ({ ...acc, [i.key]: "" }), {}));
 
     function handleRegisterBtnClick(e: any) {
         e.preventDefault();
 
         if (isRegisteringUser) return;
 
+        const { username, email, password, confPassword, passcode, confPasscode } = state || {};
         if (username !== "" && email !== "" && password !== "" && confPassword !== "" && passcode !== "" && confPasscode !== "") {
-            if (!validateUsername(username)) {
-                showError && showError("Username cannot contain symbol and spaces");
-                return;
-            }
-            if (!validateEmail(email)) {
-                showError && showError("Invalid Email id format");
-                return;
-            }
-            if (password !== confPassword) {
-                showError && showError("Password do not match");
-                return;
-            }
-            if (!validateNumber(passcode)) {
-                showError && showError("Passcode must be a number");
-                return;
-            }
-            if (passcode.length !== 4) {
-                showError && showError("Passcode must be 4 digits long");
-                return;
-            }
-            if (passcode !== confPasscode) {
-                showError && showError("Passcode do not match");
-                return;
-            }
+            if (!validateUsername(username)) return (showError && showError("Username cannot contain symbol and spaces"));
+            if (!validateEmail(email)) return (showError && showError("Invalid Email id format"));
+            if (password !== confPassword) return (showError && showError("Password do not match"));
+            if (!validateNumber(passcode)) return (showError && showError("Passcode must be a number"));
+            if (passcode.length !== 4) return (showError && showError("Passcode must be 4 digits long"));
+            if (passcode !== confPasscode) return (showError && showError("Passcode do not match"));
 
             onRegisterClick && onRegisterClick(username, username, email, password, passcode);
-        } else {
-            showError && showError("Please fill all the input fields");
-        }
+        } else showError && showError("Please fill all the input fields");
     }
 
     return (
-        <form onSubmit={handleRegisterBtnClick} className={cx("formContainer", className)}>
+        <form onSubmit={handleRegisterBtnClick} className={`formContainer ${className}`}>
             <img className="logoImg" alt="logoImg" src={logoImg} width={200} height={200} />
             <div className="logoTitle">{projectTitle}</div>
-            <input
-                type="text"
-                className={cx("formInputField", inputClassName)}
-                placeholder="Username"
-                autoFocus
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
 
-            <input
-                type="email"
-                className={cx("formInputField", inputClassName)}
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <input
-                type="password"
-                className={cx("formInputField", inputClassName)}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <input
-                type="password"
-                className={cx("formInputField", inputClassName)}
-                placeholder="Confirm Password"
-                value={confPassword}
-                onChange={(e) => setConfPassword(e.target.value)}
-            />
-
-            <input
-                type="password"
-                className={cx("formInputField", inputClassName)}
-                placeholder="Passcode"
-                value={passcode}
-                maxLength={4}
-                onChange={(e) => setPasscode(e.target.value)}
-            />
-
-            <input
-                type="password"
-                className={cx("formInputField", inputClassName)}
-                placeholder="Confirm Passcode"
-                value={confPasscode}
-                maxLength={4}
-                onChange={(e) => setConfPasscode(e.target.value)}
-            />
+            {
+                FIELDS.map(({ type, placeholder, key, maxLength, autoFocus }) => (
+                    <input
+                        {...{ placeholder, type, key, ...(maxLength ? { maxLength } : {}), ...(autoFocus ? { autoFocus } : {}) }}
+                        className={`formInputField ${inputClassName}`}
+                        value={state[key]}
+                        onChange={(e) => setState(prev => ({ ...prev, [key]: e.target.value }))}
+                    />
+                ))
+            }
 
             <ActionBtn
                 className={btnClassName}

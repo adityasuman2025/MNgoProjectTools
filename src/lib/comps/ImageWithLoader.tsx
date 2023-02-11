@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import LoadingAnimation from "./LoadingAnimation";
 import "./ImageWithLoader.css";
 
-function cx(...args: string[]) {
-    return args.join(" ");
-}
-
 export default function ImageWithLoader({
     className,
     loaderClassName,
@@ -22,7 +18,7 @@ export default function ImageWithLoader({
 
     if (!src) return <></>;
     return (
-        <div className={cx("imageWithLoaderContainer", className)} >
+        <div className={`imageWithLoaderContainer ${className}`} >
             <LoadingAnimation dark loading={showLoader} loaderClassName={loaderClassName} />
             <img alt="viewer" src={src} className="imageWithLoaderImg" style={{ display: isImageVisible ? "block" : "none" }} onLoad={displayImage} onClick={onClick} onError={() => setShowLoader(false)} />
         </div>
