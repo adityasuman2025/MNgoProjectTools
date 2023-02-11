@@ -27,16 +27,9 @@ Runs the app in the development mode
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 
-### `npm run build`
+### `npm run babel-build`
 
 it is for final package build which create `dist` folder.
-
-
-### `npm publish`
-
-to publish the project on npm
-
-`Note`: do `npm run babel-build` before `npm publish` because it publishes dist folder as defined as key main, module, files in package.json, and do not forget to login in npm using `npm login`
 
 
 ### `npm run build-publish`

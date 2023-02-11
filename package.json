@@ -1,14 +1,13 @@
 {
   "name": "mngo-project-tools",
-  "version": "1.1.5",
+  "version": "1.2.4",
   "private": false,
   "sideEffects": false,
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "index.ts",
+  "module": "index.ts",
   "homepage": "./",
   "files": [
-    "dist",
-    "README.md"
+    "*"
   ],
   "repository": {
     "type": "git",
@@ -35,8 +34,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "babel-build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --extensions '.ts,.tsx,.jsx' --ignore 'src/lib/**/*.test.tsx' --copy-files --no-copy-ignored",
-    "build-publish": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --extensions '.ts,.tsx,.jsx' --ignore 'src/lib/**/*.test.tsx' --copy-files --no-copy-ignored && npm publish"
+    "babel-build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --extensions '.ts,.tsx,.jsx' --ignore 'src/lib/**/*.test.tsx' --copy-files --no-copy-ignored && cp package.json dist && cp README.md dist",
+    "build-publish": "./publish.sh"
   },
   "eslintConfig": {
     "extends": [
