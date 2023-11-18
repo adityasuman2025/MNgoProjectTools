@@ -1,23 +1,32 @@
 import React from 'react';
 import LoadingAnimation from "./LoadingAnimation";
-import "./ActionBtn.css";
+import styles from "./ActionBtn.module.css";
 
+interface ActionBtnProps {
+    styles?: { [key: string]: string },
+    dark?: boolean,
+    showLoader?: boolean,
+    text?: string,
+    onClick?: (...args: any) => void,
+}
 export default function ActionBtn({
-    dark,
-    className,
-    textclassName,
-    showLoader,
+    styles: {
+        className = "",
+        textclassName = "",
+    } = {},
+    dark = false,
+    showLoader = false,
     text = "Button",
-    onClick,
-}: { [key: string]: any }) {
+    onClick = (...args: any) => { },
+}: ActionBtnProps) {
     return (
         <button
-            className={`actionBtnContainer ${dark ? "darkActionBtnContainer" : ""} ${className}`}
-            onClick={!showLoader ? onClick : null}
+            className={`${styles.actionBtnContainer} ${dark ? styles.darkActionBtnContainer : ""} ${className}`}
+            onClick={(e) => !showLoader ? onClick && onClick(e) : null}
         >
             {
                 showLoader ? <LoadingAnimation dark={!dark} loading={showLoader} /> :
-                    <div className={`actionBtnText ${dark ? "darkActionBtnText" : ""} ${textclassName}`}>{text}</div>
+                    <div className={`${styles.actionBtnText} ${dark ? styles.darkActionBtnText : ""} ${textclassName}`}>{text}</div>
             }
         </button>
     )

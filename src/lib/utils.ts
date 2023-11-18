@@ -14,7 +14,7 @@ export function getCookieValue(cookieName: string) {
     return null;
 }
 
-export function makeCookie(cname: string, cvalue: string, inpExpires: any = "", path: string = "/") {
+export function makeCookie(cname: string, cvalue: string, inpExpires: Date, path: string = "/") {
     try {
         const d = new Date();
         d.setTime(d.getTime() + (1 * 24 * 60 * 60 * 1000));
@@ -88,7 +88,7 @@ export async function sendRequestToAPI(baseUrl: string, endpoint: string, method
     return await response.json();
 }
 
-export async function logout(loggedUserTokenCookieName: any = "", cookieExpirationType: any = "") {
+export async function logout() {
     localStorage.clear();
     deleteAllCookies();
 }

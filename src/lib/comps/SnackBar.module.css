@@ -1,0 +1,37 @@
+.snackBarContainer {
+    z-index: 99;
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.snackBarContent {
+    text-align: center;
+    width: fit-content;
+    word-wrap: break-word;
+    border-radius: 10px;
+    padding: 10px 20px;
+    background-color: grey
+}
+
+.snackBarText {
+    text-align: center;
+    font-size: 15px;
+    color: #f1f1f1
+}
+
+.errorBox {
+    background-color: #c41717
+}
+
+.successBox {
+    background-color: #05a605
+}
+
+.infoBox {
+    background-color: #00ace6
+}

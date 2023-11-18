@@ -1,0 +1,15 @@
+.pwaBtn {
+    font-weight: 500;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 10px;
+    width: fit-content
+}
+
+.pwaBtn img {
+    margin-right: 5px;
+    border-radius: 100%
+}

@@ -1,15 +1,22 @@
 import React from "react";
-import "./LoadingAnimation.css";
+import styles from "./LoadingAnimation.module.css";
 
+interface LoadingAnimationProps {
+    styles?: { [key: string]: string },
+    dark?: boolean,
+    loading?: boolean,
+}
 export default function LoadingAnimation({
-    dark,
+    styles: {
+        className = "",
+        loaderClassName = "",
+    } = {},
+    dark = false,
     loading = false,
-    className = "",
-    loaderClassName = ""
-}: { [key: string]: any }) {
+}: LoadingAnimationProps) {
     return loading ?
         <div className={className} style={{ display: "flex", justifyContent: "center", margin: "auto" }}>
-            <div className={["loadingAnimation", (dark ? "darkLoader" : ""), loaderClassName].join(" ")} />
+            <div className={`${styles.loadingAnimation} ${dark ? styles.darkLoader : ""} ${loaderClassName}`} />
         </div>
         : null;
 }

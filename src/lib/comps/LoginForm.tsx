@@ -2,20 +2,32 @@ import React, { useState } from 'react';
 import ActionBtn from "./ActionBtn";
 import SignInUpButton from "./SignInUpButton";
 import getLogoImg from "../getLogoImg";
-import "./LoginSignUpForm.css";
+import styles from "./LoginSignUpForm.module.css";
 
+interface LoginFormProps {
+    styles?: { [key: string]: string },
+    projectTitle?: string,
+    logoImg?: any,
+    isLoggingUser?: boolean,
+    children?: React.ReactNode | String,
+    showError?: (...args: any) => void,
+    onLoginClick?: (...args: any) => void,
+    onSignUpClick?: (...args: any) => void,
+}
 export default function LoginForm({
-    className,
-    inputClassName,
-    btnClassName,
+    styles: {
+        className = "",
+        inputClassName = "",
+        btnClassName = "",
+    } = {},
     projectTitle = "MNgo",
     logoImg = getLogoImg(),
-    isLoggingUser,
-    children,
-    showError,
-    onLoginClick,
-    onSignUpClick,
-}: { [key: string]: any }) {
+    isLoggingUser = false,
+    children = "",
+    showError = (...args: any) => { },
+    onLoginClick = (...args: any) => { },
+    onSignUpClick = (...args: any) => { },
+}: LoginFormProps) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -32,14 +44,14 @@ export default function LoginForm({
     }
 
     return (
-        <div className={`formContainer ${className}`}>
-            <img className="logoImg" alt="logoImg" src={logoImg} width={200} height={200} />
-            <div className="logoTitle">{projectTitle}</div>
+        <div className={`${styles.formContainer} ${className}`}>
+            <img className={styles.logoImg} alt="logoImg" src={logoImg} width={200} height={200} />
+            <div className={styles.logoTitle}>{projectTitle}</div>
 
-            <form onSubmit={handleLoginBtnClick} className={"formContainer"}>
+            <form onSubmit={handleLoginBtnClick} className={styles.formContainer}>
                 <input
                     type="text"
-                    className={`formInputField ${inputClassName}`}
+                    className={`${styles.formInputField} ${inputClassName}`}
                     placeholder="Username"
                     autoFocus
                     value={username}
@@ -47,14 +59,16 @@ export default function LoginForm({
                 />
                 <input
                     type="password"
-                    className={`formInputField ${inputClassName}`}
+                    className={`${styles.formInputField} ${inputClassName}`}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
                 <ActionBtn
-                    className={btnClassName}
+                    styles={{
+                        className: btnClassName
+                    }}
                     showLoader={isLoggingUser}
                     text="Login"
                     onClick={handleLoginBtnClick}

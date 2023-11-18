@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { validateUsername, validateEmail, validateNumber } from "../utils";
 import ActionBtn from "./ActionBtn";
 import getLogoImg from "../getLogoImg";
-import "./LoginSignUpForm.css";
+import styles from "./LoginSignUpForm.module.css";
 
 const FIELDS = [
     { type: "text", placeholder: "Username", key: "username", autoFocus: true },
@@ -13,16 +13,30 @@ const FIELDS = [
     { type: "password", placeholder: "Confirm Passcode", key: "confPasscode", maxLength: 4 },
 ];
 
+interface RegisterFormProps {
+    styles?: {
+        className?: string,
+        inputClassName?: string,
+        btnClassName?: string,
+    },
+    projectTitle?: string,
+    logoImg?: string,
+    isRegisteringUser?: boolean,
+    showError?: (...args: any) => void,
+    onRegisterClick?: (...args: any) => void,
+}
 export default function RegisterForm({
-    className = "",
-    inputClassName = "",
-    btnClassName = "",
+    styles: {
+        className = "",
+        inputClassName = "",
+        btnClassName = "",
+    } = {},
     projectTitle = "MNgo",
     logoImg = getLogoImg(),
-    isRegisteringUser,
-    showError,
-    onRegisterClick,
-}: { [key: string]: any }) {
+    isRegisteringUser = false,
+    showError = (...args: any) => { },
+    onRegisterClick = (...args: any) => { },
+}: RegisterFormProps) {
     const [state, setState] = useState<{ [key: string]: any }>(FIELDS.reduce((acc, i) => ({ ...acc, [i.key]: "" }), {}));
 
     function handleRegisterBtnClick(e: any) {
@@ -44,15 +58,15 @@ export default function RegisterForm({
     }
 
     return (
-        <form onSubmit={handleRegisterBtnClick} className={`formContainer ${className}`}>
-            <img className="logoImg" alt="logoImg" src={logoImg} width={200} height={200} />
-            <div className="logoTitle">{projectTitle}</div>
+        <form onSubmit={handleRegisterBtnClick} className={`${styles.formContainer} ${className}`}>
+            <img className={styles.logoImg} alt="logoImg" src={logoImg} width={200} height={200} />
+            <div className={styles.logoTitle}>{projectTitle}</div>
 
             {
                 FIELDS.map(({ type, placeholder, key, maxLength, autoFocus }) => (
                     <input
                         {...{ placeholder, type, key, ...(maxLength ? { maxLength } : {}), ...(autoFocus ? { autoFocus } : {}) }}
-                        className={`formInputField ${inputClassName}`}
+                        className={`${styles.formInputField} ${inputClassName}`}
                         value={state[key]}
                         onChange={(e) => setState(prev => ({ ...prev, [key]: e.target.value }))}
                     />
@@ -60,7 +74,7 @@ export default function RegisterForm({
             }
 
             <ActionBtn
-                className={btnClassName}
+                styles={{ className: btnClassName }}
                 showLoader={isRegisteringUser}
                 text="Register"
                 onClick={handleRegisterBtnClick}

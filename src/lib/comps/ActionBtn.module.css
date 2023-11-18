@@ -1,0 +1,36 @@
+.actionBtnContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 420px;
+    min-height: 48px;
+    max-height: 48px;
+    border: none;
+    border-radius: 25px;
+    padding: 0 16px;
+    margin: 10px 0;
+    font-size: 16px;
+    color: #f1f1f1;
+    background-color: #d8d8d8;
+    cursor: pointer
+}
+
+.darkActionBtnContainer {
+    background-color: #24133f
+}
+
+.actionBtnText {
+    font-size: 16;
+    font-weight: 700;
+    color: #24133f
+}
+
+.darkActionBtnText {
+    color: #d8d8d8
+}
+
+@media screen and (max-width:800px) {
+    .actionBtnContainer {
+        width: 300px
+    }
+}

@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import LoadingAnimation from "./LoadingAnimation";
-import "./ImageWithLoader.css";
+import styles from "./ImageWithLoader.module.css";
 
+interface ImageWithLoader {
+    styles?: { [key: string]: string },
+    src: string,
+    onClick?: (...args: any) => void,
+}
 export default function ImageWithLoader({
-    className,
-    loaderClassName,
+    styles: {
+        className = "",
+        loaderClassName = "",
+    } = {},
     src,
-    onClick,
-}: { [key: string]: any }) {
+    onClick = (...args: any) => { }
+}: ImageWithLoader) {
     const [showLoader, setShowLoader] = useState(true);
     const [isImageVisible, setIsImageVisible] = useState(false);
 
@@ -18,9 +25,16 @@ export default function ImageWithLoader({
 
     if (!src) return <></>;
     return (
-        <div className={`imageWithLoaderContainer ${className}`} >
-            <LoadingAnimation dark loading={showLoader} loaderClassName={loaderClassName} />
-            <img alt="viewer" src={src} className="imageWithLoaderImg" style={{ display: isImageVisible ? "block" : "none" }} onLoad={displayImage} onClick={onClick} onError={() => setShowLoader(false)} />
+        <div className={`${styles.imageWithLoaderContainer} ${className}`} >
+            <LoadingAnimation dark loading={showLoader}
+                styles={{ loaderClassName: loaderClassName }}
+            />
+            <img alt="viewer" src={src} className={styles.imageWithLoaderImg}
+                style={{ display: isImageVisible ? "block" : "none" }}
+                onLoad={displayImage}
+                onClick={onClick}
+                onError={() => setShowLoader(false)}
+            />
         </div>
     )
 }

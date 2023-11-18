@@ -1,35 +1,50 @@
-import React, { useEffect } from "react";
-import "./SnackBar.css";
+import React, { useEffect, useRef } from "react";
+import styles from "./SnackBar.module.css";
 
+interface SnackBarProps {
+    styles?: { [key: string]: string },
+    boxClassName?: string,
+    textClassName?: string,
+    open?: boolean,
+    duration?: number,
+    type?: string,
+    msg?: string,
+    onClose?: (...args: any) => void,
+}
 export default function SnackBar({
-    boxClassName,
-    textClassName,
-    open,
-    duration = 5000,
+    styles: {
+        boxClassName = "",
+        textClassName = "",
+    } = {},
+    open = false,
+    duration = 1000,
     type = "error",
     msg = "",
-    handleClose,
-}: { [key: string]: any }) {
+    onClose = (...args: any) => { },
+}: SnackBarProps) {
+    const timeoutRef = useRef<any>(null);
+
     useEffect(() => {
+        clearTimeout(timeoutRef.current);
         if (open) {
-            setTimeout(function () {
-                handleClose && handleClose();
+            timeoutRef.current = setTimeout(function () {
+                onClose && onClose();
             }, duration);
         }
     }, [msg])
 
     function renderTypeStyle(type: string) {
-        if (type === "error") return "errorBox";
-        else if (type === "success") return "successBox";
-        else if (type === "info") return "infoBox";
+        if (type === "error") return styles.errorBox;
+        else if (type === "success") return styles.successBox;
+        else if (type === "info") return styles.infoBox;
         return "";
     }
 
     return (
         open ?
-            <div className="snackBarContainer">
-                <div className={["snackBarContent", renderTypeStyle(type), boxClassName].join(" ")} onClick={handleClose}>
-                    <span className={["snackBarText", textClassName].join(" ")}>{msg}</span>
+            <div className={styles.snackBarContainer}>
+                <div className={`${styles.snackBarContent} ${renderTypeStyle(type)} ${boxClassName}`} onClick={onClose}>
+                    <span className={`${styles.snackBarText} ${textClassName}`}>{msg}</span>
                 </div>
             </div>
             : null

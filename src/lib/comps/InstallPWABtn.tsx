@@ -1,9 +1,22 @@
 import React from "react";
 import PWAInstallProvider, { useReactPWAInstall } from './PWAInstallProvider';
-import pwaImg from "./pwa.webp";
-import "./InstallPWABtn.css";
+import pwaIcon from "./pwa.svg";
+import styles from "./InstallPWABtn.module.css";
 
-export default function InstallPWABtn({ className, title, onSuccess, onError }: { [key: string]: any }) {
+interface InstallPWABtnProps {
+    styles?: { [key: string]: any },
+    title?: string,
+    onSuccess?: (...args: any) => void,
+    onError?: (...args: any) => void,
+}
+export default function InstallPWABtn({
+    styles: {
+        className = "",
+    } = {},
+    title = "",
+    onSuccess = (...args: any) => { },
+    onError = (...args: any) => { },
+}: InstallPWABtnProps) {
     return (
         <PWAInstallProvider enableLogging>
             <Btn className={className} title={title} onSuccess={onSuccess} onError={onError} />
@@ -21,8 +34,8 @@ function Btn({ className, title, onSuccess, onError }: { [key: string]: any }) {
 
     // if (!supported()) return <></>;
     return (
-        <div className={["pwaBtn", className].join(" ")} onClick={handleClick}>
-            <img alt="pwaImg" src={pwaImg} width={67} height={50} />
+        <div className={`${styles.pwaBtn} ${className}`} onClick={handleClick}>
+            <img alt="pwaIcon" src={pwaIcon} width={67} height={50} />
             Install Web App
         </div>
     )

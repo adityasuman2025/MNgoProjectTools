@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import LoadingAnimation from "./LoadingAnimation";
-import "./ImageViewer.css";
+import styles from "./ImageViewer.module.css";
+import closeIcon from "./close.svg";
 
-import closeIcon from "./close.webp";
-
-export default function ImageViewer({ src, onClose }: { [key: string]: any }) {
+interface ImageViewerProps {
+    src: string,
+    onClose?: (...args: any) => void
+}
+export default function ImageViewer({
+    src,
+    onClose = (...args: any) => { },
+}: ImageViewerProps) {
     const [showLoader, setShowLoader] = useState(true);
 
     if (!src) return <></>;
     return (
-        <div className="imageViewer">
-            <div className="imageViewerBg" onClick={onClose} />
-            <img alt="closeIcon" src={closeIcon} className="imageViewerCloseIcon" onClick={onClose} />
+        <div className={styles.imageViewer}>
+            <div className={styles.imageViewerBg} onClick={onClose} />
+            <img alt="closeIcon" src={closeIcon} className={styles.imageViewerCloseIcon} onClick={onClose} />
             <LoadingAnimation loading={showLoader} />
-            <img alt="viewer" src={src} className="imageViewerImg" onLoad={() => setShowLoader(false)} onError={() => setShowLoader(false)} />
+            <img alt="viewer" src={src} className={styles.imageViewerImg} onLoad={() => setShowLoader(false)} onError={() => setShowLoader(false)} />
         </div>
     )
 }

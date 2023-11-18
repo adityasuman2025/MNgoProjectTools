@@ -1,11 +1,20 @@
 import React from 'react';
-import "./SignInUpButton.css";
+import styles from "./SignInUpButton.module.css";
 
-export default function SignInUpButton({ otherText, buttonText = "Button", onClick }: { [key: string]: any }) {
+interface SignInUpButtonProps {
+    otherText?: string,
+    buttonText?: string,
+    onClick?: (...args: any) => void,
+}
+export default function SignInUpButton({
+    otherText,
+    buttonText = "Button",
+    onClick = (...args: any) => { },
+}: SignInUpButtonProps) {
     return (
-        <div className="signInUpBtnContainer">
-            {otherText ? <span className="signInUpText">{otherText}</span> : null}
-            <span className="signInUpBtn" onClick={onClick}>{buttonText}</span>
+        <div className={styles.signInUpBtnContainer}>
+            {otherText ? <span className={styles.signInUpText}>{otherText}</span> : null}
+            <span className={styles.signInUpBtn} onClick={onClick}>{buttonText}</span>
         </div>
     );
 }
