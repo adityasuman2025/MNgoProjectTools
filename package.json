@@ -1,61 +1,61 @@
 {
-  "name": "mngo-project-tools",
-  "version": "1.2.5",
-  "private": false,
-  "sideEffects": false,
-  "main": "index.ts",
-  "module": "index.ts",
-  "homepage": "./",
-  "files": [
-    "*"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:adityasuman2025/MNgoProjectTools.git"
-  },
-  "dependencies": {
-    "dayjs": "^1.10.4",
-    "mobile-device-detect": "^0.4.3",
-    "crypto-js": "^4.0.0"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.15.4",
-    "@babel/preset-env": "^7.15.4",
-    "@babel/preset-react": "^7.14.5",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "babel-preset-minify": "^0.5.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.1.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "babel-build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --extensions '.ts,.tsx,.jsx' --ignore 'src/lib/**/*.test.tsx' --copy-files --no-copy-ignored && cp package.json dist && cp README.md dist",
-    "build-publish": "./publish.sh"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+    "name": "mngo-project-tools",
+    "version": "1.2.5",
+    "private": false,
+    "sideEffects": false,
+    "main": "index.ts",
+    "module": "index.ts",
+    "homepage": "./",
+    "files": [
+        "*"
     ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "resolutions": {
-    "babel-loader": "8.1.0"
-  }
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:adityasuman2025/MNgoProjectTools.git"
+    },
+    "dependencies": {
+        "crypto-js": "^4.0.0",
+        "dayjs": "^1.10.4",
+        "mobile-device-detect": "^0.4.3"
+    },
+    "devDependencies": {
+        "@types/node": "^16.18.61",
+        "@types/react": "^18.2.37",
+        "@types/react-dom": "^18.2.15",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-scripts": "5.0.1",
+        "typescript": "^4.9.5",
+        "@babel/cli": "^7.23.0",
+        "@babel/preset-env": "^7.23.3",
+        "@babel/preset-react": "^7.23.3",
+        "babel-preset-minify": "^0.5.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "GENERATE_SOURCEMAP=false react-scripts build",
+        "babel-build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --extensions '.ts,.tsx,.jsx' --ignore 'src/lib/**/*.test.tsx' --copy-files --no-copy-ignored && cp package.json dist && cp README.md dist",
+        "build-publish": "npm run babel-build && cd dist && npm publish"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "resolutions": {
+        "babel-loader": "8.1.0"
+    }
 }
