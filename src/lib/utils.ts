@@ -85,7 +85,10 @@ export async function sendRequestToAPI(baseUrl: string, endpoint: string, method
             body: JSON.stringify(body || {})
         })
     });
-    return await response.json();
+    const jsonResp = await response.json();
+
+    if (!response.ok) throw new Error(jsonResp.message);
+    return jsonResp;
 }
 
 export async function logout() {
