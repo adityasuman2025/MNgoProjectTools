@@ -9,6 +9,7 @@ interface LoginFormProps {
     projectTitle?: string,
     logoImg?: any,
     isLoggingUser?: boolean,
+    hideSignUpBtn?: boolean,
     children?: React.ReactNode | String,
     showError?: (...args: any) => void,
     onLoginClick?: (...args: any) => void,
@@ -23,6 +24,7 @@ export default function LoginForm({
     projectTitle = "MNgo",
     logoImg = getLogoImg(),
     isLoggingUser = false,
+    hideSignUpBtn = false,
     children = "",
     showError = (...args: any) => { },
     onLoginClick = (...args: any) => { },
@@ -75,7 +77,9 @@ export default function LoginForm({
                 />
             </form>
 
-            <SignInUpButton otherText="Don't have an account yet?" buttonText="Signup" onClick={onSignUpClick} />
+            {
+                !hideSignUpBtn && <SignInUpButton otherText="Don't have an account yet?" buttonText="Signup" onClick={onSignUpClick} />
+            }
 
             <br />{children}<br />
         </div>
