@@ -76,7 +76,12 @@ export function isEmpty(obj: any) {
     return true;
 }
 
-export async function sendRequestToAPI(baseUrl: string, endpoint: string, method: string = "get", body?: { [key: string]: any }) {
+export async function sendRequestToAPI(
+    baseUrl: string, endpoint: string, method: string = "get", body: { [key: string]: any },
+    options: { [key: string]: any } = {}
+) {
+    const { throwNotOkError = true } = options || {};
+
     const requestAddress = baseUrl + endpoint;
     const response = await fetch(requestAddress, {
         method,
@@ -87,8 +92,17 @@ export async function sendRequestToAPI(baseUrl: string, endpoint: string, method
     });
     const jsonResp = await response.json();
 
-    if (!response.ok) throw new Error(jsonResp.message);
+    if (!response.ok && throwNotOkError) throw new Error(jsonResp.message);
     return jsonResp;
+}
+
+export async function sendRequestToAPIWithFormData(requestAddress: string, formData: any) {
+    const response = await fetch(requestAddress, {
+        method: 'POST',
+        body: formData,
+    });
+
+    return await response.json();
 }
 
 export async function logout() {
