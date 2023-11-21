@@ -102,7 +102,10 @@ export async function sendRequestToAPIWithFormData(requestAddress: string, formD
         body: formData,
     });
 
-    return await response.json();
+    const jsonResp = await response.json();
+
+    if (!response.ok) throw new Error(jsonResp.message);
+    return jsonResp;
 }
 
 export async function logout() {

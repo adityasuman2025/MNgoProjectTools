@@ -17,7 +17,7 @@ export default function SnackBar({
         textClassName = "",
     } = {},
     open = false,
-    duration = 1000,
+    duration = 5000,
     type = "error",
     msg = "",
     onClose = (...args: any) => { },
