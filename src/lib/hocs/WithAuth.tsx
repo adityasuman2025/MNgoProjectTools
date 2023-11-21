@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from "react";
-import { getCookieValue } from "mngo-project-tools/utils";
-import { FullScreenLoader } from "../comps";
+import { useState, useEffect, useRef, forwardRef } from "react";
+import { getCookieValue } from "../utils";
+import FullScreenLoader from "../comps/FullScreenLoader";
 
 export default function WithAuth(WrappedComponent: any, cookieName: string, fallbackFunc: (...args: any) => void) {
-    return function (props: any) {
+    function WithRef(props: any) {
         const isMounted = useRef<boolean>(false);
 
         const [isChecking, setIsChecking] = useState<boolean>(true);
@@ -34,4 +34,7 @@ export default function WithAuth(WrappedComponent: any, cookieName: string, fall
             </>
         )
     }
+
+    return forwardRef(WithRef); // forwardRef is used to pass ref to the wrapped component, to fix given error
+    // React Hook cannot be called inside a callback. React Hooks must be called in a React function component or a custom React Hook function 
 }
