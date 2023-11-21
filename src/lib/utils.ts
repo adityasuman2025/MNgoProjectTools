@@ -96,7 +96,12 @@ export async function sendRequestToAPI(
     return jsonResp;
 }
 
-export async function sendRequestToAPIWithFormData(requestAddress: string, formData: any) {
+export async function sendRequestToAPIWithFormData(
+    requestAddress: string, formData: any,
+    options: { [key: string]: any } = {}
+) {
+    const { throwNotOkError = true } = options || {};
+
     const response = await fetch(requestAddress, {
         method: 'POST',
         body: formData,
@@ -104,7 +109,7 @@ export async function sendRequestToAPIWithFormData(requestAddress: string, formD
 
     const jsonResp = await response.json();
 
-    if (!response.ok) throw new Error(jsonResp.message);
+    if (!response.ok && throwNotOkError) throw new Error(jsonResp.message);
     return jsonResp;
 }
 
