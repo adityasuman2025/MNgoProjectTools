@@ -1,9 +1,12 @@
-import { useState, useEffect, useRef, forwardRef } from "react";
+import React, { useState, useEffect, useRef, forwardRef } from "react";
 import { getCookieValue } from "../utils";
 import FullScreenLoader from "../comps/FullScreenLoader";
 
 export default function WithAuth(WrappedComponent: any, cookieName: string, fallbackFunc: (...args: any) => void) {
-    function WithRef(props: any) {
+    function WithRef(props: any, ref: any) {
+        const innerRef = useRef(); // Create a ref using useRef
+        const forwardedRef = ref || innerRef; // Forward the ref to the wrapped component
+
         const isMounted = useRef<boolean>(false);
 
         const [isChecking, setIsChecking] = useState<boolean>(true);
@@ -26,7 +29,7 @@ export default function WithAuth(WrappedComponent: any, cookieName: string, fall
                     (isChecking || !isMounted.current) ? (
                         <FullScreenLoader />
                     ) : (isSomeoneLogged) ? (
-                        <WrappedComponent {...props} />
+                        <WrappedComponent {...props} ref={forwardedRef} />
                     ) : (
                         <>{fallbackFunc && fallbackFunc()}</>
                     )
