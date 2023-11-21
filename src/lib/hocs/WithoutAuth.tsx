@@ -31,7 +31,7 @@ export default function WithoutAuth(WrappedComponent: any, cookieName: string, f
                     ) : (isSomeoneLogged) ? (
                         <>{fallbackFunc && fallbackFunc()}</>
                     ) : (
-                        <WrappedComponent {...props} ref={forwardedRef} />
+                        <WrappedComponent {...props} />
                     )
                 }
             </>

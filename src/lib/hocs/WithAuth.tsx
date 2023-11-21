@@ -29,7 +29,7 @@ export default function WithAuth(WrappedComponent: any, cookieName: string, fall
                     (isChecking || !isMounted.current) ? (
                         <FullScreenLoader />
                     ) : (isSomeoneLogged) ? (
-                        <WrappedComponent {...props} ref={forwardedRef} />
+                        <WrappedComponent {...props} />
                     ) : (
                         <>{fallbackFunc && fallbackFunc()}</>
                     )
