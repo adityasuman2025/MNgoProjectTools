@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import ActionBtn from './lib/comps/ActionBtn';
 import ConfirmDialog from './lib/comps/ConfirmDialog';
+import FileInput from './lib/comps/FileInput';
 import ImageViewer from './lib/comps/ImageViewer';
 import ImageWithLoader from './lib/comps/ImageWithLoader';
 import InstallPWABtn from './lib/comps/InstallPWABtn';
@@ -56,14 +57,16 @@ function App() {
             />
 
 
-            <ConfirmDialog
+            {/* <ConfirmDialog
                 open={true}
                 title="yo biro"
                 content="nyc pik"
                 onClose={(e: any) => {
                     console.log(e)
                 }}
-            />
+            /> */}
+
+            <FileInput onChange={(e) => { console.log(e.target.files) }} />
 
             {/* <ImageViewer
                 src={"https://firebasestorage.googleapis.com/v0/b/documents-b4b54.appspot.com/o/Achievement%2FWeb%20Vital%20-%20Notes%20App.png?alt=media"}
