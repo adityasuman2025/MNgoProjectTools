@@ -13,7 +13,7 @@ export function getCachedFromLStorage(key: string, encryptionKey: string, defaul
 
 export function cacheInLStorage(key: string, val: any, encryptionKey: string) {
     try {
-        const str = JSON.stringify(val || "{}");
+        const str = JSON.stringify(val || {});
         const encrStr = encryptText(str, encryptionKey);
         localStorage.setItem(key, encrStr);
     } catch (e) { }
@@ -29,7 +29,7 @@ export function getCacheRegular(key: string, defaultVal?: string) {
 
 export function setCacheRegular(key: string, val: any) {
     try {
-        const str = JSON.stringify(val || "{}");
+        const str = JSON.stringify(val || {});
         localStorage.setItem(key, str);
     } catch (e) { }
 }
