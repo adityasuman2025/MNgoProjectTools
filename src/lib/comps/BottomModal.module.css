@@ -1,0 +1,56 @@
+.mngo-modal-backgrnd {
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    backdrop-filter: blur(64px);
+}
+
+.mngo-modal {
+    position: fixed;
+    z-index: 101;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 80%;
+    transform: translateY(100%);
+    overflow-y: auto;
+    animation: slideUp 0.3s ease-in-out forwards;
+
+    background: white;
+    border-radius: 40px 40px 0px 0px;
+    color: black;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0%);
+    }
+}
+
+.mngo-modal-header {
+    text-align: center;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    background: white;
+}
+
+.mngo-modal-close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.mngo-modal-content {
+    padding: 20px;
+    text-align: left;
+}

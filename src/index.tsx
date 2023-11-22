@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import ActionBtn from './lib/comps/ActionBtn';
+import BottomModal from './lib/comps/BottomModal';
 import ConfirmDialog from './lib/comps/ConfirmDialog';
 import FileInput from './lib/comps/FileInput';
 import FullScreenLoader from './lib/comps/FullScreenLoader';
@@ -57,6 +58,11 @@ function App() {
                 }}
             />
 
+            <BottomModal
+
+            >
+                yo biro
+            </BottomModal>
 
             {/* <ConfirmDialog
                 open={true}
