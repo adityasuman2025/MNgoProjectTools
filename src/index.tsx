@@ -69,7 +69,9 @@ function App() {
 
             <FileInput onChange={(e) => { console.log(e.target.files) }} />
 
-            <FullScreenLoader />
+            <FullScreenLoader>
+                <h1 className='mngo-text-2xl'>Welcome to the MNgo Quiz</h1>
+            </FullScreenLoader>
 
             {/* <ImageViewer
                 src={"https://firebasestorage.googleapis.com/v0/b/documents-b4b54.appspot.com/o/Achievement%2FWeb%20Vital%20-%20Notes%20App.png?alt=media"}
