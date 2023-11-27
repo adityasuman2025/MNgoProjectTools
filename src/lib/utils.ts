@@ -133,13 +133,20 @@ function deleteAllCookies() {
     }
 }
 
-export function uploadMediaInChunks(apiUrl: string, file: any, options: { [key: string]: any }) {
+export async function uploadMediaInChunks(apiUrl: string, file: any, options: { [key: string]: any }) {
     const { chunkSize = 3.5 * 1024 * 1024 } = options || {};
 
-    return new Promise(async function (resolve, reject) {
-        if (!file) reject({ message: "file not found" });
-        if (!apiUrl) reject({ message: "api url not found" });
+    if (!apiUrl) throw new Error("api url not found");
+    if (!file) throw new Error("file not found");
 
+    if (file.size < chunkSize) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        return await sendRequestToAPIWithFormData(apiUrl, formData)
+    }
+
+    return new Promise(async function (resolve, reject) {
         try {
             const totalChunks = Math.ceil(file.size / chunkSize);
 
@@ -152,7 +159,7 @@ export function uploadMediaInChunks(apiUrl: string, file: any, options: { [key: 
                 formData.append('file', chunk);
                 formData.append("type", file.type);
 
-                if (chunkIndex === totalChunks - 1) formData.append("isLast", "true");
+                if (chunkIndex === totalChunks - 1) formData.append("isLast", String(true));
 
                 const response = await fetch(apiUrl + "&isChunk=true", { method: 'POST', body: formData }); // 
                 const jsonResp = await response.json();
