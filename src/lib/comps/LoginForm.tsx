@@ -47,8 +47,8 @@ export default function LoginForm({
 
     return (
         <div className={`${styles.formContainer} ${className}`}>
-            <img className={styles.logoImg} alt="logoImg" src={logoImg} width={200} height={200} />
-            <div className={styles.logoTitle}>{projectTitle}</div>
+            <img alt="logoImg" src={logoImg} width={250} height={250} />
+            <p className={styles.logoTitle}>{projectTitle}</p>
 
             <form onSubmit={handleLoginBtnClick} className={styles.formContainer}>
                 <input

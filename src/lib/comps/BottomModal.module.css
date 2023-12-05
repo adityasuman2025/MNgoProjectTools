@@ -18,7 +18,7 @@
     height: 80%;
     transform: translateY(100%);
     overflow-y: auto;
-    animation: slideUp 0.3s ease-in-out forwards;
+    animation: slideUp 0.2s ease-in-out forwards;
 
     background: white;
     border-radius: 40px 40px 0px 0px;

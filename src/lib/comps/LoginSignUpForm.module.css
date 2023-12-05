@@ -4,16 +4,13 @@
     align-items: center
 }
 
-.logoImg {
-    width: 200px;
-    height: 200px
-}
-
 .logoTitle {
     font-weight: 700;
     font-size: 20px;
     letter-spacing: .1;
-    color: #d8d8d8
+    color: #d8d8d8;
+    margin: 0px;
+    margin-top: 50px;
 }
 
 .formInputField {

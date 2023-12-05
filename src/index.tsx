@@ -16,6 +16,7 @@ import SnackBar from './lib/comps/SnackBar';
 import VerifyPassCode from './lib/comps/VerifyPassCode';
 import { makeCookie, getCookieValue } from './lib/utils';
 import { encryptText, decryptText } from './lib/encryptionUtil';
+import getLogoImg from './lib/getLogoImgXxs';
 
 // import ActionBtn from './dist/comps/ActionBtn';
 // import ConfirmDialog from './dist/comps/ConfirmDialog';
@@ -51,6 +52,11 @@ function App() {
 
     return (
         <>
+            {/* <img src={getLogoImg()} /> */}
+
+            <LoginForm
+            />
+
             <ActionBtn
                 text="df"
                 onClick={(e: any) => {
@@ -58,11 +64,10 @@ function App() {
                 }}
             />
 
-            <BottomModal
-
+            {/* <BottomModal
             >
                 yo biro
-            </BottomModal>
+            </BottomModal> */}
 
             {/* <ConfirmDialog
                 open={true}
@@ -73,11 +78,11 @@ function App() {
                 }}
             /> */}
 
-            <FileInput onChange={(e) => { console.log(e.target.files) }} />
+            {/* <FileInput onChange={(e) => { console.log(e.target.files) }} />
 
             <FullScreenLoader>
                 <h1 className='mngo-text-2xl'>Welcome to the MNgo Quiz</h1>
-            </FullScreenLoader>
+            </FullScreenLoader> */}
 
             {/* <ImageViewer
                 src={"https://firebasestorage.googleapis.com/v0/b/documents-b4b54.appspot.com/o/Achievement%2FWeb%20Vital%20-%20Notes%20App.png?alt=media"}
