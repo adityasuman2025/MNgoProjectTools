@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LoadingAnimation from "./LoadingAnimation";
+import Loader from "./Loader";
 import styles from "./ImageWithLoader.module.css";
 
 interface ImageWithLoader {
@@ -26,7 +26,7 @@ export default function ImageWithLoader({
     if (!src) return <></>;
     return (
         <div className={`${styles.imageWithLoaderContainer} ${className}`} >
-            <LoadingAnimation dark loading={showLoader}
+            <Loader dark loading={showLoader}
                 styles={{ loaderClassName: loaderClassName }}
             />
             <img alt="viewer" src={src} className={styles.imageWithLoaderImg}

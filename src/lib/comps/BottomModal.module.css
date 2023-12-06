@@ -53,4 +53,5 @@
 .mngo-modal-content {
     padding: 20px;
     text-align: left;
+    overflow-x: auto;
 }

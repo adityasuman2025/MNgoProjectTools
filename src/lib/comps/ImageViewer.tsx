@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import LoadingAnimation from "./LoadingAnimation";
+import Loader from "./Loader";
 import styles from "./ImageViewer.module.css";
 import closeIcon from "./close.svg";
 
@@ -18,7 +18,7 @@ export default function ImageViewer({
         <div className={styles.imageViewer}>
             <div className={styles.imageViewerBg} onClick={onClose} />
             <img alt="closeIcon" src={closeIcon} className={styles.imageViewerCloseIcon} onClick={onClose} />
-            <LoadingAnimation loading={showLoader} />
+            <Loader loading={showLoader} />
             <img alt="viewer" src={src} className={styles.imageViewerImg} onLoad={() => setShowLoader(false)} onError={() => setShowLoader(false)} />
         </div>
     )

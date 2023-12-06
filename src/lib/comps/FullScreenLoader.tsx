@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingAnimation from "./LoadingAnimation";
+import Loader from "./Loader";
 import styles from "./FullScreenLoader.module.css";
 
 interface FullScreenLoaderProps {
@@ -16,7 +16,7 @@ export default function FullScreenLoader({
     return (
         <div className={`${styles.fullScreen} ${className}`}>
             <div>
-                <LoadingAnimation loading styles={{ loaderClassName }} />
+                <Loader loading styles={{ loaderClassName }} />
                 {children}
             </div>
         </div>

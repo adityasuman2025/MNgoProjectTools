@@ -1,5 +1,5 @@
 import React from "react";
-import LoadingAnimation from "./LoadingAnimation";
+import Loader from "./Loader";
 
 interface LoaderOrErrorProps {
     isLoading: boolean,
@@ -11,7 +11,7 @@ interface LoaderOrErrorProps {
 export default function LoaderOrError({
     isLoading,
     hasError,
-    loaderRenderer = <LoadingAnimation loading />,
+    loaderRenderer = <Loader loading />,
     errorRenderer = <p>something went wrong</p>,
     children
 }: LoaderOrErrorProps) {

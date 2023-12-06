@@ -1,5 +1,5 @@
 import React from 'react';
-import LoadingAnimation from "./LoadingAnimation";
+import Loader from "./Loader";
 import styles from "./ActionBtn.module.css";
 
 interface ActionBtnProps {
@@ -25,7 +25,7 @@ export default function ActionBtn({
             onClick={(e) => !showLoader ? onClick && onClick(e) : null}
         >
             {
-                showLoader ? <LoadingAnimation dark={!dark} loading={showLoader} /> :
+                showLoader ? <Loader dark={!dark} loading={showLoader} /> :
                     <div className={`${styles.actionBtnText} ${dark ? styles.darkActionBtnText : ""} ${textclassName}`}>{text}</div>
             }
         </button>
