@@ -53,23 +53,23 @@ function App() {
 
     return (
         <>
+            <BottomModal>
+                <div style={{ background: "red", flex: 1 }} dangerouslySetInnerHTML={{ __html: solution }} />
+            </BottomModal>
+
             {/* <img src={getLogoImg()} /> */}
 
-            <Loader loading />
+            {/* <Loader loading /> */}
 
-            <LoginForm
-            />
+            {/* <LoginForm
+            /> */}
 
-            <ActionBtn
+            {/* <ActionBtn
                 text="df"
                 onClick={(e: any) => {
                     console.log(e)
                 }}
-            />
-
-            {/* <BottomModal>
-                <div className="" dangerouslySetInnerHTML={{ __html: solution }} />
-            </BottomModal> */}
+            /> */}
 
             {/* <ConfirmDialog
                 open={true}

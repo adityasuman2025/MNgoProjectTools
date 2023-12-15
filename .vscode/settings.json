@@ -46,7 +46,7 @@
     "scss.lint.universalSelector": "warning",
     "typescript.updateImportsOnFileMove.enabled": "always",
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "explicit"
     },
     "editor.accessibilitySupport": "off",
 }

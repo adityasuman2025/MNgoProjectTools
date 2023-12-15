@@ -12,6 +12,8 @@ export default function BottomModal({
     styles: {
         backdropClassName = "",
         className = "",
+        headerClassName = "",
+        contentClassName = "",
     } = {},
     title = "Modal Title",
     children,
@@ -28,7 +30,7 @@ export default function BottomModal({
                 className={`${styles?.["mngo-modal"]} ${className}`}
                 role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription"
             >
-                <div className={styles?.["mngo-modal-header"]}>
+                <div className={`${styles?.["mngo-modal-header"]} ${headerClassName}`}>
                     <h2 id="modalTitle" style={{ margin: 0, padding: 0 }}>{title}</h2>
                     <img
                         src={closeIcon} alt="close icon"
@@ -38,7 +40,7 @@ export default function BottomModal({
                     />
                 </div>
 
-                <div id="modalDescription" className={styles?.["mngo-modal-content"]}>{children}</div>
+                <div id="modalDescription" className={`${styles?.["mngo-modal-content"]} ${contentClassName}`}>{children}</div>
             </div>
         </>
     )

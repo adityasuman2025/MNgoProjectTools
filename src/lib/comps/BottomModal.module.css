@@ -10,6 +10,9 @@
 }
 
 .mngo-modal {
+    display: flex;
+    flex-direction: column;
+
     position: fixed;
     z-index: 101;
     left: 0;
@@ -54,4 +57,8 @@
     padding: 20px;
     text-align: left;
     overflow-x: auto;
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
