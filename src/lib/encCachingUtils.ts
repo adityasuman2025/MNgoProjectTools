@@ -1,4 +1,4 @@
-import { decryptText, encryptText } from "./encryptionUtil";
+import { decryptText, encryptText } from "./encryptionUtils";
 
 export function getCachedFromLStorage(key: string, encryptionKey: string, defaultVal?: string) {
     try {
