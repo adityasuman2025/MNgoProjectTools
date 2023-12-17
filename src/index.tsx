@@ -14,8 +14,8 @@ import Modal from './lib/comps/Modal';
 import RegisterForm from './lib/comps/RegisterForm';
 import SnackBar from './lib/comps/SnackBar';
 import VerifyPassCode from './lib/comps/VerifyPassCode';
-import { makeCookie, getCookieValue } from './lib/utils';
-import { encryptText, decryptText } from './lib/encryptionUtil';
+import { encryptText, decryptText } from './lib/encryptionUtils';
+import { getDeviceDetails } from './lib/deviceUtils';
 import getLogoImg from './lib/getLogoImgXxs';
 
 // import ActionBtn from './dist/comps/ActionBtn';
@@ -41,21 +41,19 @@ function App() {
         let COOKIE_EXPIRATION_TYM = new Date();
         COOKIE_EXPIRATION_TYM.setTime(COOKIE_EXPIRATION_TYM.getTime() + (COOKIE_EXPIRATION_MINS * 60 * 1000));
 
-        makeCookie("biro", "isBack", COOKIE_EXPIRATION_TYM)
-
-        const cook = getCookieValue("biro");
-        console.log("cookie", cook)
-
         const enc = encryptText("yo biro", "yoyo");
         const dec = decryptText(enc, "yoyo");
         console.log("dec", dec)
+
+        const deviceDetails = getDeviceDetails();
+        console.log("deviceDetails", deviceDetails)
     }, []);
 
     return (
         <>
-            <BottomModal>
+            {/* <BottomModal>
                 <div style={{ background: "red", flex: 1 }} dangerouslySetInnerHTML={{ __html: solution }} />
-            </BottomModal>
+            </BottomModal> */}
 
             {/* <img src={getLogoImg()} /> */}
 
@@ -100,11 +98,11 @@ function App() {
                 }}
             /> */}
 
-            {/* <InstallPWABtn
+            <InstallPWABtn
                 onSuccess={(e: any) => {
                     console.log(e)
                 }}
-            /> */}
+            />
 
             {/* <LoginForm showError={(e: any) => console.log(e)} hideSignUpBtn /> */}
 

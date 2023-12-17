@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef } from "react";
-import { getCookieValue } from "../utils";
+import { getCookie } from "../cookieUtils";
 import FullScreenLoader from "../comps/FullScreenLoader";
 
 export default function WithAuth(WrappedComponent: any, cookieName: string, fallbackFunc: (...args: any) => void) {
@@ -15,7 +15,7 @@ export default function WithAuth(WrappedComponent: any, cookieName: string, fall
         useEffect(() => {
             isMounted.current = true;
 
-            const token = getCookieValue(cookieName);
+            const token = getCookie(cookieName);
             if (token) setIsSomeoneLogged(true);
 
             setIsChecking(false);

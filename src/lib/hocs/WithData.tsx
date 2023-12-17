@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef } from "react";
 import FullScreenLoader from "../comps/FullScreenLoader";
 import LoaderOrError from '../comps/LoaderOrError';
-import { getCacheRegular, setCacheRegular } from "../cachingUtil";
+import { getCacheRegular, setCacheRegular } from "../cachingUtils";
 import useFetch from '../hooks/useFetch';
 
 export default function WithData(

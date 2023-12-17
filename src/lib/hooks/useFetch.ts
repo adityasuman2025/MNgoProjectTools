@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { sendRequestToAPI } from "../utils";
+import { sendRequestToAPI } from "../apiUtils";
 
 export default function useFetch({
     urls = [],

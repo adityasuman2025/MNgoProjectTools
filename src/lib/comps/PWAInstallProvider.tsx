@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, createContext, useContext, ReactElement } from "react";
-import { isMobile, isAndroid, isFirefox, isIOS, isOpera, browserVersion } from "mobile-device-detect";
+import { isMobile, isAndroid, isFirefox, isIOS, isOpera } from "../deviceUtils";
 import Modal from "./Modal";
 import styles from "./PWAInstallProvider.module.css";
 
@@ -96,13 +96,13 @@ export function getDevice() {
     let platform = PLATFORMS.OTHER;
     if (window.hasOwnProperty("BeforeInstallPromptEvent")) {
         platform = PLATFORMS.NATIVE;
-    } else if (isMobile && isAndroid && isFirefox && +browserVersion >= 79) {
+    } else if (isMobile() && isAndroid() && isFirefox()) {
         platform = PLATFORMS.FIREFOX_NEW;
-    } else if (isMobile && isAndroid && isFirefox) {
+    } else if (isMobile() && isAndroid() && isFirefox()) {
         platform = PLATFORMS.FIREFOX;
-    } else if (isOpera && isAndroid && isMobile) {
+    } else if (isOpera() && isAndroid() && isMobile()) {
         platform = PLATFORMS.OPERA;
-    } else if (isIOS && isMobile) {
+    } else if (isIOS() && isMobile()) {
         platform = PLATFORMS.IDEVICE;
     }
     return platform;
