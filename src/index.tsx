@@ -71,14 +71,14 @@ function App() {
                 }}
             /> */}
 
-            {/* <ConfirmDialog
+            <ConfirmDialog
                 open={true}
                 title="yo biro"
                 content="nyc pik"
                 onClose={(e: any) => {
                     console.log(e)
                 }}
-            /> */}
+            />
 
             {/* <FileInput onChange={(e) => { console.log(e.target.files) }} />
 
@@ -100,15 +100,15 @@ function App() {
                 }}
             /> */}
 
-            <InstallPWABtn
+            {/* <InstallPWABtn
                 onSuccess={(e: any) => {
                     console.log(e)
                 }}
-            />
+            /> */}
 
             {/* <LoginForm showError={(e: any) => console.log(e)} hideSignUpBtn /> */}
 
-            {/* 
+
             <Modal open
                 title='yo biro'
                 onClose={(e: any) => {
@@ -116,7 +116,7 @@ function App() {
                 }}
             >
                 <div>yo biro</div>
-            </Modal> */}
+            </Modal>
 
             {/* <RegisterForm
                 showError={(e: any) => {
