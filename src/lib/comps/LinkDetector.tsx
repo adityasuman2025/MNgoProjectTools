@@ -23,7 +23,7 @@ function LinkDetector({
                             const isLink = URL_REGEX.test(word);
 
                             if (isLink) {
-                                const link = !["http://", "https://"].includes(word) ? "http://" + word : word;
+                                const link = (!word.includes("http://") && !word.includes("https://")) ? "http://" + word : word;
 
                                 return (
                                     <Fragment key={`${lineIndex}-${wordIndex}`}>
