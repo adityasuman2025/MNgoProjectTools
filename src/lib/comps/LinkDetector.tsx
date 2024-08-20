@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 
+const URL_REGEX = /(https?:\/\/[^\s/$.?#].[^\s]*$)|(www\.[^\s/$.?#].[^\s]*$)|([a-zA-Z0-9-]+\.+[a-zA-Z]{2,})/i; // Regular expression to match URLs
+
 interface LinkDetectorProps {
     children: string;
     linkRenderor?: (word: string, link: string) => React.ReactNode | string;
@@ -10,28 +12,40 @@ function LinkDetector({
         <a href={link} target="_blank" rel="noopener noreferrer">{word}</a>
     ),
 }: LinkDetectorProps) {
-    const urlRegex = /(https?:\/\/[^\s/$.?#].[^\s]*$)|(www\.[^\s/$.?#].[^\s]*$)|([a-zA-Z0-9-]+\.+[a-zA-Z]{2,})/i; // Regular expression to match URLs
+    return (
+        <Fragment>
+            {children.split('\n').map((line, lineIndex) => { // Split text into lines based on newlines and render each line
+                const words = line.split(' '); // Split each line into words
 
-    const words = children.replace(/\n/g, ' ').split(' ');
+                return (
+                    <Fragment key={lineIndex}>
+                        {words.map((word, wordIndex) => {
+                            const isLink = URL_REGEX.test(word);
 
-    const renderedText = words.map((word, index) => {
-        const isLink = urlRegex.test(word);
+                            if (isLink) {
+                                const link = !["http://", "https://"].includes(word) ? "http://" + word : word;
 
-        if (isLink) {
-            const link = (!word.includes("http://") && !word.includes("https://")) ? "http://" + word : word;
+                                return (
+                                    <Fragment key={`${lineIndex}-${wordIndex}`}>
+                                        {linkRenderor(word, link)}
+                                        {" "}
+                                    </Fragment>
+                                );
+                            }
 
-            return (
-                <Fragment key={index}>
-                    {linkRenderor(word, link)}
-                    {" "}
-                </Fragment>
-            );
-        }
-
-        return <span key={index}>{word + " "}</span>;
-    });
-
-    return <Fragment>{renderedText}</Fragment>;
+                            return (
+                                <span key={`${lineIndex}-${wordIndex}`}>
+                                    {word}
+                                    {wordIndex === words.length - 1 ? null : " "} {/* Add space if not the last word in line */}
+                                </span>
+                            )
+                        })}
+                        <br />
+                    </Fragment>
+                );
+            })}
+        </Fragment>
+    );
 }
 
 export default React.memo(LinkDetector);

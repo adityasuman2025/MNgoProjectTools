@@ -34,7 +34,7 @@ it is for final package build which create `dist` folder.
 
 ### `npm run build-publish`
 
-this command make build of the project and publishes it, basically it is combination of `npm run llib-build` and `npm publish`
+this command make build of the project and publishes it, basically it is combination of `npm run lib-build` and `npm publish`
 
 
 ## License
