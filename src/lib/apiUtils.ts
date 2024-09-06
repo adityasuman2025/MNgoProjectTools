@@ -1,3 +1,5 @@
+import { encryptFileIntoText } from "./encryptionUtils";
+
 export async function sendRequestToAPI(
     baseUrl: string, endpoint: string, method: string = "get", body: { [key: string]: any },
     options: { [key: string]: any } = {}
@@ -33,6 +35,20 @@ export async function sendRequestToAPIWithFormData(
 
     if (!response.ok && throwNotOkError) throw new Error(jsonResp.message);
     return jsonResp;
+}
+
+export async function encryptAndUploadFile(file: any, url: string, encryptionKey: string) {
+    try {
+        if (!file || !url) throw Error("No file to upload");
+
+        const encryptedImageFile: any = await encryptFileIntoText(file, encryptionKey);
+        const formData = new FormData();
+        formData.append('file', encryptedImageFile);
+
+        return await sendRequestToAPIWithFormData(url, formData);
+    } catch (error) {
+        throw Error("failed to encrypt and upload file");
+    }
 }
 
 export async function uploadMediaInChunks(apiUrl: string, file: any, options: { [key: string]: any }) {
