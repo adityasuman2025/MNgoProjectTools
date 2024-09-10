@@ -7,6 +7,7 @@ interface ImageWithLoader {
     styles?: { [key: string]: string },
     isImageEncrypted?: boolean,
     encryptionKey?: string,
+    useCache?: boolean,
     src: string,
     onClick?: (...args: any) => void,
 }
@@ -23,15 +24,23 @@ function ImageViewerComp({
         setIsImageVisible(true);
     }
 
+    function handleError() {
+        setShowLoader(false);
+        setIsImageVisible(true);
+    }
+
+    function handleClick(e: any) {
+        e.stopPropagation();
+        onClick(src); // src will always be base64 string image for case of mngo server images, for other sources, it will be the original image url
+    }
+
     if (!src) return <></>;
     return (
         <>
             <Loader dark loading={showLoader} styles={{ loaderClassName: loaderClassName }} />
-            <img alt="viewer" src={src} className={moduleStyle.imageWithLoaderImg}
+            <img src={src} className={moduleStyle.imageWithLoaderImg}
                 style={{ display: isImageVisible ? "block" : "none" }}
-                onLoad={displayImage}
-                onClick={onClick}
-                onError={() => setShowLoader(false)}
+                onLoad={displayImage} onClick={handleClick} onError={handleError}
             />
         </>
     )
@@ -41,6 +50,7 @@ export default function ImageWithLoader({
     styles = {},
     isImageEncrypted = false,
     encryptionKey = "",
+    useCache = false,
     src,
     onClick = (...args) => { }
 }: ImageWithLoader) {
@@ -51,7 +61,7 @@ export default function ImageWithLoader({
 
         if (isImageEncrypted) {
             (async () => {
-                const base64Img = await decryptUrlTextFileIntoBase64Str(src, encryptionKey);
+                const base64Img = await decryptUrlTextFileIntoBase64Str(src, encryptionKey, useCache);
                 if (base64Img) setImageSrc(base64Img);
                 else setImageSrc(src);
             })();

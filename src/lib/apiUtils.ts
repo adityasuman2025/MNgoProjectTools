@@ -47,7 +47,7 @@ export async function encryptAndUploadFile(file: any, url: string, encryptionKey
 
         return await sendRequestToAPIWithFormData(url, formData);
     } catch (error) {
-        throw Error("failed to encrypt and upload file");
+        throw Error("failed to upload file");
     }
 }
 

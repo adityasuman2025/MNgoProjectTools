@@ -46,18 +46,21 @@ export function encryptFileIntoText(imageFile: any, encryptionKey: string) {
     });
 }
 
-export async function decryptUrlTextFileIntoBase64Str(textFileUrl: string, encryptionKey: string) {
+export async function decryptUrlTextFileIntoBase64Str(textFileUrl: string, encryptionKey: string, useCache = true) {
     if (!textFileUrl) return "";
 
-    const cachedValue = getCacheRegular(textFileUrl);
-    if (cachedValue) return cachedValue; // if image base64 string is already cached, return it to avoid calling image api again
+    if (useCache) {
+        const cachedValue = getCacheRegular(textFileUrl);
+        if (cachedValue) return cachedValue; // if image base64 string is already cached, return it to avoid calling image api again
+    }
 
     try {
         const response = await fetch(textFileUrl);
         const textFileContent = await response.text();
 
         const base64Str = decryptText(textFileContent, encryptionKey);
-        setCacheRegular(textFileUrl, base64Str); // caching the base64 image string for future use to avoid calling image api again
+
+        if (useCache) setCacheRegular(textFileUrl, base64Str); // caching the base64 image string for future use to avoid calling image api again
 
         return base64Str;
     } catch (e) {

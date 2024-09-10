@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { decryptUrlTextFileIntoBase64Str } from "../encryptionUtils";
+import React, { useState } from 'react';
 import Loader from "./Loader";
 import moduleStyle from "./ImageViewer.module.css";
 import closeIcon from "./close.svg";
@@ -10,50 +9,33 @@ interface ImageViewerProps {
     src: string,
     onClose?: (...args: any) => void
 }
-function ImageViewerComp({
+export default function ImageViewer({
     src,
     onClose = (...args: any) => { },
 }: ImageViewerProps) {
     const [showLoader, setShowLoader] = useState(true);
+    const [isImageVisible, setIsImageVisible] = useState(false);
 
-    if (!src) return <></>;
-    return (
-        <>
-            <div className={moduleStyle.imageViewerBg} onClick={onClose} />
-            <img alt="closeIcon" src={closeIcon} className={moduleStyle.imageViewerCloseIcon} onClick={onClose} />
-            <Loader loading={showLoader} />
-            <img alt="viewer" src={src} className={moduleStyle.imageViewerImg} onLoad={() => setShowLoader(false)} onError={() => setShowLoader(false)} />
-        </>
-    )
-}
+    function displayImage() {
+        setShowLoader(false);
+        setIsImageVisible(true);
+    }
 
-export default function ImageViewer({
-    isImageEncrypted = false,
-    encryptionKey = "",
-    src,
-    onClose = (...args: any) => { },
-}: ImageViewerProps) {
-    const [imageSrc, setImageSrc] = useState("");
-
-    useEffect(() => {
-        if (!src) return;
-
-        if (isImageEncrypted) {
-            (async () => {
-                const base64Img = await decryptUrlTextFileIntoBase64Str(src, encryptionKey);
-                if (base64Img) setImageSrc(base64Img);
-                else setImageSrc(src);
-            })();
-        } else setImageSrc(src);
-    }, [src, isImageEncrypted, encryptionKey]);
+    function handleError() {
+        setShowLoader(false);
+        setIsImageVisible(true);
+    }
 
     if (!src) return <></>;
     return (
         <div className={moduleStyle.imageViewer}>
-            {
-                imageSrc ? <ImageViewerComp src={imageSrc} onClose={onClose} /> :
-                    <Loader loading={true} />
-            }
+            <div className={moduleStyle.imageViewerBg} onClick={onClose} />
+            <img alt="closeIcon" src={closeIcon} className={moduleStyle.imageViewerCloseIcon} onClick={onClose} />
+            <Loader loading={showLoader} />
+            <img src={src} className={moduleStyle.imageViewerImg}
+                style={{ display: isImageVisible ? "block" : "none" }}
+                onLoad={displayImage} onError={handleError}
+            />
         </div>
     )
 }
