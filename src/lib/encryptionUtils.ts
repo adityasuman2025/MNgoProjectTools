@@ -2,7 +2,7 @@ import AES from "crypto-js/aes";
 import Utf8 from 'crypto-js/enc-utf8'
 import MD5 from "crypto-js/md5";
 // import { Utf8, AES, MD5 } from "crypto-js";
-import { getCacheRegular, setCacheRegular } from "./cachingUtils";
+import { getInWindowObjCache, setInWindowObjCache } from "./cachingUtils";
 
 export function encryptText(text: string, encryptionKey: string) {
     try {
@@ -46,13 +46,13 @@ export function encryptFileIntoText(imageFile: any, encryptionKey: string) {
     });
 }
 
-export async function decryptUrlTextFileIntoBase64Str(textFileUrl: string, encryptionKey: string, useCache = true) {
+export async function decryptUrlTextFileIntoBase64Str(textFileUrl: string, encryptionKey: string, cacheKey: string) {
     if (!textFileUrl) return "";
 
-    if (useCache) {
-        const cachedValue = getCacheRegular(textFileUrl);
-        if (cachedValue) return cachedValue; // if image base64 string is already cached, return it to avoid calling image api again
-    }
+    // check if image base64 string is already cached
+    const cachedValue = getInWindowObjCache(cacheKey, textFileUrl);
+    if (cachedValue !== undefined) return cachedValue; // if image base64 string is already cached, return it to avoid calling image api again
+    // check if image base64 string is already cached
 
     try {
         const response = await fetch(textFileUrl);
@@ -60,7 +60,7 @@ export async function decryptUrlTextFileIntoBase64Str(textFileUrl: string, encry
 
         const base64Str = decryptText(textFileContent, encryptionKey);
 
-        if (useCache) setCacheRegular(textFileUrl, base64Str); // caching the base64 image string for future use to avoid calling image api again
+        setInWindowObjCache(cacheKey, textFileUrl, base64Str); // caching the base64 image string for future use to avoid calling image api again
 
         return base64Str;
     } catch (e) {

@@ -4,10 +4,13 @@ import Loader from "./Loader";
 import moduleStyle from "./ImageWithLoader.module.css";
 
 interface ImageWithLoader {
-    styles?: { [key: string]: string },
     isImageEncrypted?: boolean,
     encryptionKey?: string,
     useCache?: boolean,
+    cacheKey?: string,
+    hideOnError?: boolean,
+
+    styles?: { [key: string]: string },
     src: string,
     onClick?: (...args: any) => void,
 }
@@ -47,30 +50,36 @@ function ImageViewerComp({
 }
 
 export default function ImageWithLoader({
-    styles = {},
     isImageEncrypted = false,
     encryptionKey = "",
-    useCache = false,
+    cacheKey = "",
+    hideOnError = false,
+
+    styles = {},
     src,
     onClick = (...args) => { }
 }: ImageWithLoader) {
     const [imageSrc, setImageSrc] = useState("");
+    const [isImageVisible, setIsImageVisible] = useState(true);
 
     useEffect(() => {
         if (!src) return;
 
         if (isImageEncrypted) {
             (async () => {
-                const base64Img = await decryptUrlTextFileIntoBase64Str(src, encryptionKey, useCache);
+                const base64Img = await decryptUrlTextFileIntoBase64Str(src, encryptionKey, cacheKey);
                 if (base64Img) setImageSrc(base64Img);
-                else setImageSrc(src);
+                else {
+                    if (hideOnError) setIsImageVisible(false);
+                    else setImageSrc(src);
+                }
             })();
         } else setImageSrc(src);
-    }, [src, isImageEncrypted, encryptionKey]);
+    }, [src, isImageEncrypted]);
 
     if (!src) return <></>;
     return (
-        <div className={`${moduleStyle.imageWithLoaderContainer} ${styles.className || ""}`} >
+        <div className={`${moduleStyle.imageWithLoaderContainer} ${styles.className || ""}`} style={isImageVisible ? {} : { display: "none" }}>
             {
                 imageSrc ? <ImageViewerComp src={imageSrc} styles={styles} onClick={onClick} /> :
                     <Loader dark loading={true} styles={{ loaderClassName: styles.loaderClassName }} />

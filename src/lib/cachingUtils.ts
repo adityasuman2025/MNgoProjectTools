@@ -16,3 +16,24 @@ export function setCacheRegular(key: string, val: any) {
         localStorage.setItem(key, str);
     } catch (e) { }
 }
+
+export function setInWindowObjCache(cacheKey: any, key: any, value: any) {
+    try {
+        if (typeof window === 'undefined') return console.log('Window object does not exist');
+        if (!key || !cacheKey) return;
+
+        window[cacheKey] = window[cacheKey] || {};
+        window[cacheKey][key] = value;
+    } catch (e) { }
+}
+
+export function getInWindowObjCache(cacheKey: any, key: any, defaultVal = undefined) {
+    try {
+        if (typeof window === 'undefined') return defaultVal;
+        if (!key || !cacheKey) return defaultVal;
+
+        return window[cacheKey][key]
+    } catch (e) {
+        return defaultVal;
+    }
+}
