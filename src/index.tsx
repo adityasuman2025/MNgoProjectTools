@@ -38,17 +38,17 @@ const ENCYRPTION_KEY = "yoyo";
 
 function App() {
     useEffect(() => {
-        const COOKIE_EXPIRATION_MINS = 30 * 24 * 60; // 30 days
+        // const COOKIE_EXPIRATION_MINS = 30 * 24 * 60; // 30 days
 
-        let COOKIE_EXPIRATION_TYM = new Date();
-        COOKIE_EXPIRATION_TYM.setTime(COOKIE_EXPIRATION_TYM.getTime() + (COOKIE_EXPIRATION_MINS * 60 * 1000));
+        // let COOKIE_EXPIRATION_TYM = new Date();
+        // COOKIE_EXPIRATION_TYM.setTime(COOKIE_EXPIRATION_TYM.getTime() + (COOKIE_EXPIRATION_MINS * 60 * 1000));
 
-        const enc = encryptText("yo biro", ENCYRPTION_KEY);
-        const dec = decryptText(enc, ENCYRPTION_KEY);
-        console.log("dec", dec)
+        // const enc = encryptText("yo biro", ENCYRPTION_KEY);
+        // const dec = decryptText(enc, ENCYRPTION_KEY);
+        // console.log("dec", dec)
 
-        const deviceDetails = getDeviceDetails();
-        console.log("deviceDetails", deviceDetails)
+        // const deviceDetails = getDeviceDetails();
+        // console.log("deviceDetails", deviceDetails)
     }, []);
 
     return (
@@ -70,7 +70,7 @@ function App() {
                     console.log(e)
                 }}
             /> */}
-
+            {/* 
             <ConfirmDialog
                 open={true}
                 title="yo biro"
@@ -78,7 +78,7 @@ function App() {
                 onClose={(e: any) => {
                     console.log(e)
                 }}
-            />
+            /> */}
 
             {/* <FileInput onChange={(e) => { console.log(e.target.files) }} />
 
@@ -86,15 +86,21 @@ function App() {
                 <h1 classNameName='mngo-text-2xl'>Welcome to the MNgo Quiz</h1>
             </FullScreenLoader> */}
 
-            {/* <ImageViewer
-                src={"https://firebasestorage.googleapis.com/v0/b/documents-b4b54.appspot.com/o/Achievement%2FWeb%20Vital%20-%20Notes%20App.png?alt=media"}
+            <ImageViewer
+                isArrowVisible={true}
+                isLeftActive={true}
+                isRightActive={false}
+                src={"https://apis.mngo.in/api/get-file?location=Achievement&fileName=Web%20Vital%20-%20Notes%20App.png&isDocument=true"}
+                onLeftClick={() => {
+                    console.log("left clicked")
+                }}
                 onClose={(e: any) => {
                     console.log(e)
                 }}
-            /> */}
+            />
 
             {/* <ImageWithLoader
-                src={"https://firebasestorage.googleapis.com/v0/b/documents-b4b54.appspot.com/o/Achievement%2FWeb%20Vital%20-%20Notes%20App.png?alt=media"}
+                src={"https://apis.mngo.in/api/get-file?location=Achievement&fileName=Web%20Vital%20-%20Notes%20App.png&isDocument=true"}
                 onClick={(e: any) => {
                     console.log(e)
                 }}
@@ -109,14 +115,14 @@ function App() {
             {/* <LoginForm showError={(e: any) => console.log(e)} hideSignUpBtn /> */}
 
 
-            <Modal open
+            {/* <Modal open
                 title='yo biro'
                 onClose={(e: any) => {
                     console.log(e)
                 }}
             >
                 <div>yo biro</div>
-            </Modal>
+            </Modal> */}
 
             {/* <RegisterForm
                 showError={(e: any) => {
