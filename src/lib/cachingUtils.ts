@@ -37,3 +37,13 @@ export function getInWindowObjCache(cacheKey: any, key: any, defaultVal = undefi
         return defaultVal;
     }
 }
+
+export function deleteInWindowObjCache(cacheKey: any, key: any) {
+    try {
+        if (typeof window === 'undefined') return console.log('Window object does not exist');
+        if (!key || !cacheKey) return;
+
+        const { [key]: _, ...rest }: any = window[cacheKey] || {};
+        window[cacheKey] = rest;
+    } catch (e) { }
+}

@@ -51,6 +51,17 @@ export async function encryptAndUploadFile(file: any, url: string, encryptionKey
     }
 }
 
+export async function urlToFile(url: string, fileName: string) {
+    try {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const file = new File([blob], fileName, { type: blob.type }); // Adjust the filename and type as needed
+        return file;
+    } catch (error) {
+        return null;
+    }
+}
+
 export async function uploadMediaInChunks(apiUrl: string, file: any, options: { [key: string]: any }) {
     const { chunkSize = 3.5 * 1024 * 1024 } = options || {};
 

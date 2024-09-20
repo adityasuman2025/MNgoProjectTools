@@ -3,6 +3,7 @@ import Utf8 from 'crypto-js/enc-utf8'
 import MD5 from "crypto-js/md5";
 // import { Utf8, AES, MD5 } from "crypto-js";
 import { getInWindowObjCache, setInWindowObjCache } from "./cachingUtils";
+import { getCookie, FB_ID_TOKEN_KEY } from "./cookieUtils";
 
 export function encryptText(text: string, encryptionKey: string) {
     try {
@@ -55,7 +56,11 @@ export async function decryptUrlTextFileIntoBase64Str(textFileUrl: string, encry
     // check if image base64 string is already cached
 
     try {
-        const response = await fetch(textFileUrl);
+        const response = await fetch(textFileUrl, {
+            headers: {
+                [FB_ID_TOKEN_KEY]: getCookie(FB_ID_TOKEN_KEY) || "" // sending fb-id-token in headers because the image api requires firebase auth
+            }
+        });
         const textFileContent = await response.text();
 
         const base64Str = decryptText(textFileContent, encryptionKey);

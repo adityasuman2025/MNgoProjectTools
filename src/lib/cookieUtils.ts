@@ -1,3 +1,5 @@
+export const FB_ID_TOKEN_KEY = 'fb-id-token';
+
 export function getCookie(cookieName: string) {
     try {
         let name = cookieName + "=";

@@ -1,6 +1,6 @@
 {
     "name": "mngo-project-tools",
-    "version": "1.3.35",
+    "version": "1.3.43",
     "private": false,
     "sideEffects": false,
     "main": "index.ts",
